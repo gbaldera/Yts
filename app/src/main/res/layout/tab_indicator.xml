@@ -9,5 +9,4 @@
     android:gravity="center"
     android:textColor="@color/tab_text_color"
     android:textSize="@dimen/text_size_small"
-    android:textStyle="@integer/font_textStyle_medium"
     android:textAllCaps="true" />
