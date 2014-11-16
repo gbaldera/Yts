@@ -9,6 +9,8 @@
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:colorBackground">@color/windowBackgroundColor</item>
+        <item name="android:windowBackground">@color/windowBackgroundColor</item>
     </style>
 
     <style name="ActionBarThemeOverlay" parent="">

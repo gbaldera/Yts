@@ -10,6 +10,6 @@
     <dimen name="headerbar_elevation">4dp</dimen>
 
     <dimen name="keyline">16dp</dimen>
-    <dimen name="navdrawer_width">260dp</dimen>
+    <dimen name="navdrawer_width">320dp</dimen>
     <dimen name="navdrawer_top_view_height">128dp</dimen>
 </resources>

@@ -7,12 +7,12 @@
     <color name="colorSecondary">@color/material_deep_teal_200</color>
     <color name="colorSecondaryDark">@color/material_deep_teal_500</color>
 
-    <color name="windowBackgroundColor">#333333</color>
+    <color name="windowBackgroundColor">#ff222222</color>
     <color name="black_translucent">#80000000</color>
 
-    <color name="tab_background">@color/colorPrimary</color>
-    <color name="tab_selected_strip">#00b0ff</color>
+    <color name="tab_background">#ff222222</color>
+    <color name="tab_selected_strip">#259b24</color>
 
     <color name="navdrawer_background">#ff1c1c1c</color>
-    <color name="navdrawer_separator">#e5e5e5</color>
+    <color name="navdrawer_separator">#26ffffff</color>
 </resources>
