@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,7 +15,7 @@ import com.gbaldera.yts.fragments.TabFragment;
 import com.gbaldera.yts.widgets.SlidingTabLayout;
 
 
-public class MainActivity extends BaseActivity implements TabFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseDrawerActivity implements TabFragment.OnFragmentInteractionListener {
 
     ViewPager mViewPager = null;
     MainTabsViewPagerAdapter mViewPagerAdapter = null;
@@ -86,6 +85,11 @@ public class MainActivity extends BaseActivity implements TabFragment.OnFragment
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected int getSelfNavDrawerItem() {
+        return NAVDRAWER_ITEM_HOME;
     }
 
     @Override
