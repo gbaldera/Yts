@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#259b24</color>
-    <color name="colorPrimaryDark">#056f00</color>
+    <color name="color_primary">#50d518</color>
+    <color name="color_primary_dark">#36910f</color>
     <color name="transparent">#00000000</color>
 
     <color name="colorSecondary">@color/material_deep_teal_200</color>
@@ -11,7 +11,7 @@
     <color name="black_translucent">#80000000</color>
 
     <color name="tab_background">#ff222222</color>
-    <color name="tab_selected_strip">#259b24</color>
+    <color name="tab_selected_strip">#50d518</color>
 
     <color name="navdrawer_background">#ff1c1c1c</color>
     <color name="navdrawer_separator">#26ffffff</color>
