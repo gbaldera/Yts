@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.gbaldera.yts"
@@ -20,6 +20,8 @@ android {
 }
 
 dependencies {
+    compile project(':libraries:androidutils')
+
     compile 'com.android.support:appcompat-v7:21.0.0+'
     compile 'com.android.support:palette-v7:21.0.+'
     compile 'com.android.support:cardview-v7:21.0.+'

@@ -3,23 +3,34 @@ package com.gbaldera.yts.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Resources;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gbaldera.yts.R;
-import com.gbaldera.yts.fragments.TabFragment;
+import com.gbaldera.yts.fragments.BaseMovieFragment;
+import com.gbaldera.yts.fragments.LatestMoviesFragment;
+import com.gbaldera.yts.fragments.PopularMoviesFragment;
+import com.gbaldera.yts.fragments.UpcomingMoviesFragment;
 import com.gbaldera.yts.widgets.SlidingTabLayout;
 
+import java.util.HashSet;
+import java.util.Set;
 
-public class MainActivity extends BaseDrawerActivity implements TabFragment.OnFragmentInteractionListener {
+
+public class MainActivity extends BaseDrawerActivity implements
+        BaseMovieFragment.MoviesFragmentListener {
 
     ViewPager mViewPager = null;
     MainTabsViewPagerAdapter mViewPagerAdapter = null;
     SlidingTabLayout mSlidingTabLayout = null;
+
+    private Set<BaseMovieFragment> mMoviesFragments = new HashSet<BaseMovieFragment>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +91,10 @@ public class MainActivity extends BaseDrawerActivity implements TabFragment.OnFr
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.action_refresh:
+                requestRefresh();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -93,8 +106,40 @@ public class MainActivity extends BaseDrawerActivity implements TabFragment.OnFr
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentViewCreated(BaseMovieFragment fragment) {
 
+    }
+
+    @Override
+    public void onFragmentAttached(BaseMovieFragment fragment) {
+        mMoviesFragments.add(fragment);
+    }
+
+    @Override
+    public void onFragmentDetached(BaseMovieFragment fragment) {
+        mMoviesFragments.remove(fragment);
+    }
+
+    @Override
+    public boolean canSwipeRefreshChildScrollUp() {
+
+        for (BaseMovieFragment fragment : mMoviesFragments) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                if (!fragment.getUserVisibleHint()) {
+                    continue;
+                }
+            }
+
+            return ViewCompat.canScrollVertically(fragment.getGridView(), -1);
+        }
+
+        return false;
+    }
+
+    protected void requestRefresh(){
+        for(BaseMovieFragment fragment : mMoviesFragments){
+            fragment.refreshMovieData(); // todo: call this with event bus
+        }
     }
 
     private class MainTabsViewPagerAdapter extends FragmentPagerAdapter {
@@ -105,8 +150,14 @@ public class MainActivity extends BaseDrawerActivity implements TabFragment.OnFr
 
         @Override
         public Fragment getItem(int position) {
-            TabFragment frag = TabFragment.newInstance("Texto", "");
-            return frag;
+            switch (position){
+                case 1:
+                    return new PopularMoviesFragment();
+                case 2:
+                    return new UpcomingMoviesFragment();
+                default:
+                    return new LatestMoviesFragment();
+            }
         }
 
         @Override

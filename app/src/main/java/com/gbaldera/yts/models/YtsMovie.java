@@ -26,4 +26,17 @@ public class YtsMovie {
     public String TorrentUrl;
     public String TorrentHash;
     public String TorrentMagnetUrl;
+
+    public YtsMovie(){}
+
+    public YtsMovie(YtsUpcomingMovie upcomingMovie){
+        MovieTitle = upcomingMovie.MovieTitle;
+        DateUploaded = upcomingMovie.DateAdded;
+        DateUploadedEpoch = upcomingMovie.DateAddedEpoch;
+        CoverImage = upcomingMovie.MovieCover;
+        ImdbCode = upcomingMovie.ImdbCode;
+        ImdbLink = upcomingMovie.ImdbLink;
+        Uploader = upcomingMovie.Uploader;
+        UploaderUID = upcomingMovie.UploaderUID;
+    }
 }

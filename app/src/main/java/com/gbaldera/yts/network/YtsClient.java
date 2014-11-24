@@ -18,14 +18,13 @@ public class YtsClient {
     public interface YtsService {
 
         @GET("/upcoming.json")
-        void upcomingMovies(Callback<List<YtsUpcomingMovie>> callback);
+        List<YtsUpcomingMovie> upcomingMovies();
 
         @GET("/list.json")
-        void listMovies(@Query("limit") int limit, @Query("set") int set,
+        YtsMovieList listMovies(@Query("limit") int limit, @Query("set") int set,
                         @Query("quality") String quality, @Query("rating") int rating,
                         @Query("keywords") String keywords, @Query("genre") String genre,
-                        @Query("sort") String sort, @Query("order") String order,
-                        Callback<YtsMovieList> callback);
+                        @Query("sort") String sort, @Query("order") String order);
     }
 
     public static YtsService create() {

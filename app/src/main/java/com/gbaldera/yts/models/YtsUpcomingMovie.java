@@ -7,7 +7,7 @@ public class YtsUpcomingMovie {
     public String ImdbCode;
     public String ImdbLink;
     public String Uploader;
-    public int UploaderUID;
+    public String UploaderUID;
     public String DateAdded;
     public int DateAddedEpoch;
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="movie_item_width">144dp</dimen>
+    <dimen name="movie_item_height">284dp</dimen>
+    <dimen name="movie_item_poster_height">216dp</dimen>
+
+    <dimen name="text_size_xmedium">18sp</dimen>
+</resources>
