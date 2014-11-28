@@ -26,8 +26,8 @@ public class PopularMoviesLoader extends GenericSimpleLoader<List<Movie>> {
         List<Movie> movies = new ArrayList<Movie>();
 
         try{
-            YtsMovieList ytsMovieList = YtsClient.create().
-                    listMovies(20, 1, "ALL", 0, null, "ALL", "downloaded", "desc");
+            YtsMovieList ytsMovieList = YtsClient.create(getContext()).
+                    list(20, 1, "ALL", 0, null, "ALL", "downloaded", "desc");
             for(YtsMovie ytsMovie: ytsMovieList.MovieList){
                 movies.add(new Movie(ytsMovie, new com.uwetrottmann.tmdb.entities.Movie()));
             }

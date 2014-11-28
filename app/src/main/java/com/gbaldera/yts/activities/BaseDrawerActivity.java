@@ -2,6 +2,7 @@ package com.gbaldera.yts.activities;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -108,7 +109,43 @@ public abstract class BaseDrawerActivity extends BaseActivity
     }
 
     @Override
-    public void onItemClick(android.widget.AdapterView<?> parent, android.view.View view, int position, long id){}
+    public void onItemClick(android.widget.AdapterView<?> parent, android.view.View view,
+                            int position, long id){
+
+        if (position == getSelfNavDrawerItem()) {
+            mDrawerLayout.closeDrawer(Gravity.START);
+            return;
+        }
+
+        final int itemId = position;
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                goToNavDrawerItem(itemId);
+            }
+        }, NAVDRAWER_LAUNCH_DELAY);
+
+        mDrawerLayout.closeDrawer(Gravity.START);
+    }
+
+    private void goToNavDrawerItem(int item) {
+        Intent intent = null;
+
+        switch (item){
+            case NAVDRAWER_ITEM_HOME:
+                intent = new Intent(this, MainActivity.class);
+                break;
+            case NAVDRAWER_ITEM_SEARCH:
+                intent = new Intent(this, SearchActivity.class);
+                break;
+        }
+
+        if(intent != null){
+            startActivity(intent);
+            overridePendingTransition(R.anim.activity_fade_enter, R.anim.activity_fade_out);
+        }
+    }
 
 
     /**

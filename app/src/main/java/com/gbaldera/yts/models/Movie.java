@@ -18,7 +18,7 @@ public class Movie {
         this.tmdbMovie = tmdbMovie;
     }
 
-    public String getPosterImageBaseUrl(Context context){
+    public String getPosterImageUrl(Context context){
 
         String mPosterBaseImageUrl;
 

@@ -4,7 +4,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="com.gbaldera.yts.activities.MainActivity">
 
     <LinearLayout
         android:id="@+id/main_content"
@@ -26,19 +26,12 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <com.gbaldera.yts.widgets.MultiSwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
+        <!-- Movies fragments -->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- Movies fragments -->
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-        </com.gbaldera.yts.widgets.MultiSwipeRefreshLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
