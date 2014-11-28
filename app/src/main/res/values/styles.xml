@@ -14,6 +14,9 @@
         <item name="android:windowBackground">@color/windowBackgroundColor</item>
 
         <item name="searchViewStyle">@style/Widget.Yts.SearchView</item>
+        
+        <!-- Action bar -->
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item>
 
     </style>
 
