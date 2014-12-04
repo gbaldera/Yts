@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def loadStringPropertyOrPlaceholder(String name) {
+    return rootProject.hasProperty(name) ? rootProject.property(name) : "MISSING"
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -10,6 +14,8 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+
+        buildConfigField("String", "TRAKT_API_KEY", "\"${loadStringPropertyOrPlaceholder("TRAKT_API_KEY")}\"")
     }
     buildTypes {
         release {
@@ -22,20 +28,23 @@ android {
 dependencies {
     compile project(':libraries:androidutils')
 
-    compile 'com.android.support:appcompat-v7:21.0.0+'
-    compile 'com.android.support:palette-v7:21.0.+'
-    compile 'com.android.support:cardview-v7:21.0.+'
-    compile 'com.android.support:support-v13:21.+'
 
+
+
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files('libs/underscore.jar')
+    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.android.support:palette-v7:21.0.2'
+    compile 'com.android.support:cardview-v7:21.0.2'
+    compile 'com.android.support:support-v13:21.0.2'
     compile 'com.jakewharton:butterknife:6.0.0'
-
+    compile 'com.jakewharton.timber:timber:2.5.0'
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'com.squareup.retrofit:retrofit:1.7.1'
     compile 'com.squareup.okhttp:okhttp:2.1.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0'
-
     compile 'com.uwetrottmann:tmdb-java:0.7.0'
     compile 'com.uwetrottmann:trakt-java:3.3.1'
-
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:21.0.2'
 }

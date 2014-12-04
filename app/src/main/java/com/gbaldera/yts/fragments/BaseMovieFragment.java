@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.gbaldera.yts.R;
 import com.gbaldera.yts.adapters.MoviesAdapter;
-import com.gbaldera.yts.models.Movie;
+import com.jakewharton.trakt.entities.Movie;
 import com.uwetrottmann.androidutils.AndroidUtils;
 
 import java.util.List;

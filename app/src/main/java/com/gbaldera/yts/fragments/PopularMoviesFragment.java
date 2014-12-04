@@ -4,7 +4,7 @@ package com.gbaldera.yts.fragments;
 import android.content.Loader;
 
 import com.gbaldera.yts.loaders.PopularMoviesLoader;
-import com.gbaldera.yts.models.Movie;
+import com.jakewharton.trakt.entities.Movie;
 
 import java.util.List;
 

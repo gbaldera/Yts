@@ -38,6 +38,7 @@ local.properties
 
 # Gradle cache
 .gradle
+gradle.properties
 
 # Sandbox stuff
 _sandbox

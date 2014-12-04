@@ -6,30 +6,31 @@ import android.text.TextUtils;
 
 import com.gbaldera.yts.helpers.DisplayHelper;
 import com.gbaldera.yts.helpers.TmdbHelper;
+import com.gbaldera.yts.helpers.TraktHelper;
 
 public class Movie {
     public YtsMovie ytsMovie;
-    public com.uwetrottmann.tmdb.entities.Movie tmdbMovie;
+    public com.jakewharton.trakt.entities.Movie traktMovie;
 
     public Movie(){}
 
-    public Movie(YtsMovie ytsMovie, com.uwetrottmann.tmdb.entities.Movie tmdbMovie){
+    public Movie(YtsMovie ytsMovie, com.jakewharton.trakt.entities.Movie traktMovie){
         this.ytsMovie = ytsMovie;
-        this.tmdbMovie = tmdbMovie;
+        this.traktMovie = traktMovie;
     }
 
     public String getPosterImageUrl(Context context){
 
-        String mPosterBaseImageUrl;
+        int size;
 
         // figure out which size of posters to load based on screen density
         if (DisplayHelper.isVeryHighDensityScreen(context)) {
-            mPosterBaseImageUrl = TmdbHelper.DEFAULT_BASE_URL + TmdbHelper.POSTER_SIZE_SPEC_W342;
+            size = TraktHelper.POSTER_SIZE_SPEC_138;
         } else {
-            mPosterBaseImageUrl = TmdbHelper.DEFAULT_BASE_URL + TmdbHelper.POSTER_SIZE_SPEC_W154;
+            size = TraktHelper.POSTER_SIZE_SPEC_300;
         }
 
-        return !TextUtils.isEmpty(tmdbMovie.poster_path) ?
-                mPosterBaseImageUrl + tmdbMovie.poster_path : null;
+        return traktMovie.images != null && !TextUtils.isEmpty(traktMovie.images.poster) ?
+                TraktHelper.resizeImage(traktMovie.images.poster, size) : null;
     }
 }

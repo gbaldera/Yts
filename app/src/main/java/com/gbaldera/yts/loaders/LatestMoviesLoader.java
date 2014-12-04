@@ -16,9 +16,9 @@ import com.jakewharton.trakt.enumerations.Extended2;
 
 import java.util.List;
 
-public class PopularMoviesLoader extends BaseMoviesLoader<List<Movie>> {
+public class LatestMoviesLoader extends BaseMoviesLoader<List<Movie>> {
 
-    public PopularMoviesLoader(Context context) {
+    public LatestMoviesLoader(Context context) {
         super(context);
     }
 
@@ -32,7 +32,7 @@ public class PopularMoviesLoader extends BaseMoviesLoader<List<Movie>> {
     protected List<YtsMovie> getMoviesFromYts() {
         YtsMovieList ytsMovieList = ServicesHelper.getYtsService(getContext()).
                 list(30, 1, YtsMovieQuality.ALL, 0, null, YtsMovieGenre.ALL,
-                        YtsMovieSort.DOWNLOADED, YtsMovieOrder.DESC);
+                        YtsMovieSort.DATE, YtsMovieOrder.DESC);
         return ytsMovieList.MovieList;
     }
 }

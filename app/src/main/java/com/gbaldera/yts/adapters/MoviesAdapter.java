@@ -10,12 +10,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gbaldera.yts.models.Movie;
 import com.gbaldera.yts.R;
+import com.gbaldera.yts.helpers.DisplayHelper;
+import com.gbaldera.yts.helpers.TraktHelper;
 import com.squareup.picasso.Picasso;
+import com.jakewharton.trakt.entities.Movie;
 
 import java.text.DateFormat;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class MoviesAdapter extends ArrayAdapter<Movie> {
 
@@ -51,17 +55,23 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
         // Bind the data efficiently with the holder.
         Movie movie = getItem(position);
 
-        holder.title.setText(movie.ytsMovie.MovieTitleClean);
+        holder.title.setText(movie.title);
 
-        if (movie.ytsMovie.DateUploaded != null) {
-            //holder.date.setText(dateFormatMovieReleaseDate.format(movie.ytsMovie.DateUploaded));
-            holder.date.setText(movie.ytsMovie.DateUploaded);
+        if (movie.released != null) {
+            holder.date.setText(dateFormatMovieReleaseDate.format(movie.released));
         } else {
             holder.date.setText("");
         }
 
-        //String poster = movie.getPosterImageBaseUrl(getContext());
-        String poster = movie.ytsMovie.CoverImage;
+        int size;
+
+        if (DisplayHelper.isVeryHighDensityScreen(getContext())) {
+            size = TraktHelper.POSTER_SIZE_SPEC_138;
+        } else {
+            size = TraktHelper.POSTER_SIZE_SPEC_300;
+        }
+
+        String poster = TraktHelper.resizeImage(movie.images.poster, size);
 
         if (!TextUtils.isEmpty(poster)) {
             Picasso.with(getContext())

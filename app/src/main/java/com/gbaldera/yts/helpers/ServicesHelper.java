@@ -4,6 +4,10 @@ package com.gbaldera.yts.helpers;
 import android.content.Context;
 import android.os.StatFs;
 
+import com.gbaldera.yts.BuildConfig;
+import com.gbaldera.yts.network.TraktClient;
+import com.gbaldera.yts.network.YtsClient;
+import com.jakewharton.trakt.Trakt;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
@@ -24,6 +28,9 @@ public final class ServicesHelper {
     private static OkUrlFactory urlFactory;
     private static OkHttpClient cachingHttpClient;
     private static OkUrlFactory cachingUrlFactory;
+
+    private static Trakt trakt;
+    private static YtsClient.YtsService ytsService;
 
     /**
      * Returns this apps {@link com.squareup.okhttp.OkHttpClient} with no cache enabled.
@@ -77,5 +84,19 @@ public final class ServicesHelper {
 
         // Bound inside min/max size for disk cache.
         return Math.max(Math.min(size, MAX_DISK_API_CACHE_SIZE), MIN_DISK_API_CACHE_SIZE);
+    }
+
+    public static synchronized Trakt getTrakt(Context context) {
+        if (trakt == null) {
+            trakt = new TraktClient(context).setApiKey(BuildConfig.TRAKT_API_KEY);
+        }
+        return trakt;
+    }
+
+    public static synchronized YtsClient.YtsService getYtsService(Context context) {
+        if (ytsService == null) {
+            ytsService = YtsClient.create(context);
+        }
+        return ytsService;
     }
 }

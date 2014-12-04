@@ -3,8 +3,8 @@ package com.gbaldera.yts.fragments;
 
 import android.content.Loader;
 
-import com.gbaldera.yts.loaders.PopularMoviesLoader;
-import com.gbaldera.yts.models.Movie;
+import com.gbaldera.yts.loaders.UpcomingMoviesLoader;
+import com.jakewharton.trakt.entities.Movie;
 
 import java.util.List;
 
@@ -16,6 +16,6 @@ public class UpcomingMoviesFragment extends BaseMovieFragment {
 
     @Override
     protected Loader<List<Movie>> getLoader() {
-        return new PopularMoviesLoader(getActivity());
+        return new UpcomingMoviesLoader(getActivity());
     }
 }
