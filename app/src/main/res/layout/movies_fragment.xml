@@ -31,7 +31,7 @@
             android:paddingRight="0dp"
             android:paddingBottom="@dimen/default_padding"
             android:paddingLeft="@dimen/default_padding"
-            android:fastScrollAlwaysVisible="true"
+            android:fastScrollAlwaysVisible="false"
             android:scrollbarStyle="outsideInset"
             android:stretchMode="columnWidth" />
 

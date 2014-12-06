@@ -30,7 +30,7 @@ public abstract class BaseMovieFragment extends Fragment implements AdapterView.
     private TextView mEmptyView;
     private ProgressBar mProgressBar;
 
-    private MoviesAdapter mMoviesAdapter;
+    protected MoviesAdapter mMoviesAdapter;
 
     public static final int LATEST_MOVIES_LOADER_ID = 100;
     public static final int POPULAR_MOVIES_LOADER_ID = 101;
