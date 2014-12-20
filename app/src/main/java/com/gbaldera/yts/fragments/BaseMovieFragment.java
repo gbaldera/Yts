@@ -24,7 +24,7 @@ import java.util.List;
 public abstract class BaseMovieFragment extends Fragment implements AdapterView.OnItemClickListener,
         LoaderManager.LoaderCallbacks<List<Movie>> {
 
-    protected static final int LAYOUT = R.layout.movies_fragment;
+    protected static final int LAYOUT = R.layout.fragment_movies;
     private View mMoviesContainer;
     private GridView mGridView;
     private TextView mEmptyView;

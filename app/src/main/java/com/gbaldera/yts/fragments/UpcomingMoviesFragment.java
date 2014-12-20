@@ -1,7 +1,6 @@
 package com.gbaldera.yts.fragments;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.Loader;
 import android.net.Uri;
