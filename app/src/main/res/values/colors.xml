@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#50d518</color>
-    <color name="color_primary_dark">#36910f</color>
+    <color name="color_primary">#14e715</color>
+    <color name="color_primary_dark">#12c700</color>
     <color name="primary_text">#fff</color>
-    <color name="accent">#50d518</color>
+    <color name="accent">#14e715</color>
     <color name="transparent">#00000000</color>
 
     <color name="colorSecondary">@color/material_deep_teal_200</color>
@@ -13,13 +13,13 @@
     <color name="black_translucent">#80000000</color>
 
     <color name="tab_background">#ff222222</color>
-    <color name="tab_selected_strip">#50d518</color>
+    <color name="tab_selected_strip">#14e715</color>
 
     <color name="navdrawer_background">#ff1c1c1c</color>
     <color name="navdrawer_separator">#26ffffff</color>
 
-    <color name="refresh_progress_1">#50d518</color>
-    <color name="refresh_progress_2">#36910f</color>
+    <color name="refresh_progress_1">#14e715</color>
+    <color name="refresh_progress_2">#12c700</color>
     <color name="refresh_progress_3">#194706</color>
 
     <color name="text_dim">#80bebebe</color>

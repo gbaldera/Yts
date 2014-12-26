@@ -25,4 +25,19 @@
 
     <dimen name="grid_vertical_spacing">5dp</dimen>
     <dimen name="grid_horizontal_spacing">8dp</dimen>
+
+    <!--movie details-->
+    <dimen name="backdrop_portrait_height">300dp</dimen>
+    <dimen name="content_details_portrait_thumb_width">100dp</dimen>
+    <dimen name="content_details_portrait_thumb_height">150dp</dimen>
+    <dimen name="content_details_baseline_margin">16dp</dimen>
+    <dimen name="content_details_portrait_thumb_negative_margin">-32dp</dimen>
+    <dimen name="content_details_title_margin_top">-12dp</dimen>
+    <dimen name="content_details_title">28sp</dimen>
+    <dimen name="content_details_small_margin">4dp</dimen>
+    <dimen name="content_details_subheader">18sp</dimen>
+    <dimen name="content_details_very_small_margin">0dp</dimen>
+    <dimen name="content_details_large_margin">48dp</dimen>
+    <dimen name="content_details_area_subheader">12sp</dimen>
+    <dimen name="content_details_area_header">16sp</dimen>
 </resources>

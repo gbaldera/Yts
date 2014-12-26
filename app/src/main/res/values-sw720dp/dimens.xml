@@ -5,4 +5,7 @@
     <dimen name="movie_item_poster_height">216dp</dimen>
 
     <dimen name="text_size_xmedium">18sp</dimen>
+
+    <!--movie details-->
+    <dimen name="backdrop_portrait_height">528dp</dimen>
 </resources>

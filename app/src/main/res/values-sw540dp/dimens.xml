@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--movie details-->
+    <dimen name="content_details_title">32sp</dimen>
+    <dimen name="content_details_subheader">20sp</dimen>
+</resources>

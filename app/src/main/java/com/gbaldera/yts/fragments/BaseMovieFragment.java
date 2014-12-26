@@ -3,6 +3,7 @@ package com.gbaldera.yts.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gbaldera.yts.R;
+import com.gbaldera.yts.activities.MovieDetailsActivity;
 import com.gbaldera.yts.adapters.MoviesAdapter;
 import com.jakewharton.trakt.entities.Movie;
 import com.uwetrottmann.androidutils.AndroidUtils;
@@ -116,7 +118,15 @@ public abstract class BaseMovieFragment extends Fragment implements AdapterView.
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Movie movie = mMoviesAdapter.getItem(position);
+        String imdbId = movie.imdb_id;
+
+        Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
+        intent.putExtra(MovieDetailsActivity.IMDB_ID, imdbId);
+
+        getActivity().startActivity(intent);
+    }
 
     private void setProgressVisible(boolean visible, boolean animate) {
         mMoviesContainer.setVisibility(visible ? View.GONE : View.VISIBLE);

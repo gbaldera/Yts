@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">YTS</string>
+	<string name="hello_world">¡Hola mundo!</string>
+	<string name="action_refresh">Actualización</string>
+	<string name="action_settings">Configuración</string>
+	<string name="tab_latest">últimas</string>
+	<string name="tab_popular">Popular</string>
+	<string name="tab_upcoming">Próximas</string>
+	<string name="hello_blank_fragment">Hola fragmento en blanco</string>
+	<string name="navigation_drawer_open">Cajón abierto navegación</string>
+	<string name="navigation_drawer_close">Cajón de navegación cerca</string>
+	<string name="navdrawer_item_home">Página de inicio</string>
+	<string name="navdrawer_item_search">Búsqueda de</string>
+	<string name="navdrawer_item_requests">Solicitudes de</string>
+	<string name="navdrawer_item_settings">Configuración</string>
+	<string name="offline">Conectar a una red, inténtelo de nuevo.</string>
+	<string name="movies_empty">No hay ningúna película para mostrar.</string>
+	<string name="title_activity_search">SearchActivity</string>
+    <string name="detailsRunTime">Duración</string>
+    <string name="detailsCertification">Clasificación</string>
+    <string name="detailsRating">Valoración</string>
+
+</resources>

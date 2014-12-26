@@ -21,8 +21,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setupActionBar();
     }
 
     @Override
@@ -36,6 +34,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
         getActionBarToolbar();
+        setupActionBar();
     }
 
     protected Toolbar getActionBarToolbar() {

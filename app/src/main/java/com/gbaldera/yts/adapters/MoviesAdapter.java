@@ -19,12 +19,10 @@ import com.jakewharton.trakt.entities.Movie;
 import java.text.DateFormat;
 import java.util.List;
 
-import timber.log.Timber;
-
 public class MoviesAdapter extends ArrayAdapter<Movie> {
 
     private LayoutInflater mInflater;
-    private static int LAYOUT = R.layout.intem_movie;
+    private static int LAYOUT = R.layout.item_movie;
     private DateFormat dateFormatMovieReleaseDate = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
 
