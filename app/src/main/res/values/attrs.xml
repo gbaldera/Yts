@@ -12,4 +12,9 @@
     <declare-styleable name="MultiSwipeRefreshLayout">
         <attr name="foreground" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="ExpandingTextView">
+        <attr name="expanded" format="boolean|reference" />
+        <attr name="collapsed_maxLines" format="integer|reference" />
+    </declare-styleable>
 </resources>

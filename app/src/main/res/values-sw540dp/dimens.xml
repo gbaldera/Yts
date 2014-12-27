@@ -3,4 +3,5 @@
     <!--movie details-->
     <dimen name="content_details_title">32sp</dimen>
     <dimen name="content_details_subheader">20sp</dimen>
+    <dimen name="content_details_body_text">18sp</dimen>
 </resources>

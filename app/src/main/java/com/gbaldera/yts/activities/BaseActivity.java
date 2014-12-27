@@ -1,7 +1,9 @@
 package com.gbaldera.yts.activities;
 
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -9,12 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.gbaldera.yts.R;
+import com.gbaldera.yts.helpers.ColorHelper;
 import com.gbaldera.yts.widgets.MultiSwipeRefreshLayout;
 
 public abstract class BaseActivity extends ActionBarActivity implements
         MultiSwipeRefreshLayout.CanChildScrollUpCallback {
 
     protected Toolbar mActionBarToolbar;
+    protected DrawerLayout mDrawerLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
@@ -82,5 +86,14 @@ public abstract class BaseActivity extends ActionBarActivity implements
     @Override
     public boolean canSwipeRefreshChildScrollUp() {
         return false;
+    }
+
+    public void setStatusBarColor(float scroll, int color) {
+        final int statusBarColor = ColorHelper.blendColors(color, 0, scroll);
+        if (mDrawerLayout != null) {
+            mDrawerLayout.setStatusBarBackgroundColor(statusBarColor);
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            this.getWindow().setStatusBarColor(statusBarColor);
+        }
     }
 }

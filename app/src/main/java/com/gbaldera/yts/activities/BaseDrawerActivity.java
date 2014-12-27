@@ -50,7 +50,6 @@ public abstract class BaseDrawerActivity extends BaseActivity
     // delay to launch nav drawer item, to allow close animation to play
     private static final int NAVDRAWER_LAUNCH_DELAY = 250;
 
-    private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
     private DrawerAdapter mDrawerAdapter;

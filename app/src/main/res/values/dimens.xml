@@ -40,4 +40,5 @@
     <dimen name="content_details_large_margin">48dp</dimen>
     <dimen name="content_details_area_subheader">12sp</dimen>
     <dimen name="content_details_area_header">16sp</dimen>
+    <dimen name="content_details_body_text">16sp</dimen>
 </resources>
