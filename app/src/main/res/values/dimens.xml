@@ -27,7 +27,7 @@
     <dimen name="grid_horizontal_spacing">8dp</dimen>
 
     <!--movie details-->
-    <dimen name="backdrop_portrait_height">300dp</dimen>
+    <dimen name="movie_detail_fanart_height">224dp</dimen>
     <dimen name="content_details_portrait_thumb_width">100dp</dimen>
     <dimen name="content_details_portrait_thumb_height">150dp</dimen>
     <dimen name="content_details_baseline_margin">16dp</dimen>

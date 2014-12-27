@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <plurals name="day">
+        <item quantity="one">dia</item>
+        <item quantity="other">dias</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="one">hora</item>
+        <item quantity="other">horas</item>
+    </plurals>
+    <plurals name="hour_short">
+        <item quantity="one">hr</item>
+        <item quantity="other">hrs</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="one">minutos</item>
+        <item quantity="other">minutos</item>
+    </plurals>
+    <plurals name="minute_short">
+        <item quantity="one">min</item>
+        <item quantity="other">mins</item>
+    </plurals>
+
 	<string name="app_name">YTS</string>
 	<string name="hello_world">¡Hola mundo!</string>
 	<string name="action_refresh">Actualización</string>
@@ -21,5 +42,6 @@
     <string name="detailsRunTime">Duración</string>
     <string name="detailsCertification">Clasificación</string>
     <string name="detailsRating">Valoración</string>
+    <string name="stringNA">N/A</string>
 
 </resources>

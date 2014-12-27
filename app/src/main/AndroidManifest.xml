@@ -29,8 +29,7 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".activities.MovieDetailsActivity"
-            android:label="@string/title_activity_movie_details" >
+            android:name=".activities.MovieDetailsActivity" >
         </activity>
     </application>
 

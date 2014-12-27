@@ -6,8 +6,9 @@ import java.net.URL;
 public class TraktHelper {
 
     public static final int POSTER_SIZE_SPEC_138 = 138;
-
     public static final int POSTER_SIZE_SPEC_300 = 300;
+    public static final int FAN_ART_SIZE_SPEC_218 = 218;
+    public static final int FAN_ART_SIZE_SPEC_940 = 940;
 
     public static final String DEFAULT_BASE_POSTERS_URL = "http://trakt.us/images/posters/%d-%d.jpg";
 

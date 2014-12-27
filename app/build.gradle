@@ -34,7 +34,7 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/underscore.jar')
-    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:palette-v7:21.0.2'
     compile 'com.android.support:cardview-v7:21.0.2'
     compile 'com.android.support:support-v13:21.0.2'
@@ -46,5 +46,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0'
     compile 'com.uwetrottmann:tmdb-java:0.7.0'
     compile 'com.uwetrottmann:trakt-java:3.3.1'
-    compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.android.support:support-v4:21.0.3'
 }

@@ -24,7 +24,7 @@
                     android:scaleType="centerCrop"
                     android:id="@+id/movie_fanart"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/backdrop_portrait_height"
+                    android:layout_height="@dimen/movie_detail_fanart_height"
                     android:background="@color/windowBackgroundColor" />
 
                 <android.support.v7.widget.CardView
@@ -51,6 +51,7 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/movie_fanart"
                     android:layout_toRightOf="@+id/movie_poster_cardview"
                     android:layout_marginTop="@dimen/content_details_title_margin_top"
                     android:padding="@dimen/content_details_baseline_margin"
