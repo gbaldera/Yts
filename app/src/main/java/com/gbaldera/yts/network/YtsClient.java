@@ -8,6 +8,7 @@ import com.gbaldera.yts.enumerations.YtsMovieQuality;
 import com.gbaldera.yts.enumerations.YtsMovieGenre;
 import com.gbaldera.yts.enumerations.YtsMovieSort;
 import com.gbaldera.yts.helpers.ServicesHelper;
+import com.gbaldera.yts.models.YtsMovieDetails;
 import com.gbaldera.yts.models.YtsMovieList;
 import com.gbaldera.yts.models.YtsUpcomingMovie;
 
@@ -39,7 +40,8 @@ public class YtsClient {
         @GET("/listimdb.json")
         YtsMovieList listimdb(@Query("imdb_id") List<String> imdb_id);
 
-
+        @GET("/movie.json")
+        YtsMovieDetails movie(@Query("id") int yts_id);
     }
 
     public static YtsService create(Context context) {

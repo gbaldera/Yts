@@ -9,10 +9,10 @@ import com.uwetrottmann.androidutils.GenericSimpleLoader;
 
 import timber.log.Timber;
 
-public class MovieLoader extends GenericSimpleLoader<Movie> {
+public class MovieDetailsLoader extends GenericSimpleLoader<Movie> {
     private String imdbId;
 
-    public MovieLoader(Context context, String imdbId) {
+    public MovieDetailsLoader(Context context, String imdbId) {
         super(context);
         this.imdbId = imdbId;
     }

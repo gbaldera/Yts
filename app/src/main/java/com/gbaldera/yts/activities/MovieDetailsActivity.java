@@ -2,7 +2,9 @@ package com.gbaldera.yts.activities;
 
 import android.app.Activity;
 import android.app.LoaderManager;
+import android.content.Intent;
 import android.content.Loader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -17,12 +19,15 @@ import com.gbaldera.yts.helpers.ColorHelper;
 import com.gbaldera.yts.helpers.DisplayHelper;
 import com.gbaldera.yts.helpers.TextHelper;
 import com.gbaldera.yts.helpers.TraktHelper;
-import com.gbaldera.yts.loaders.MovieLoader;
-import com.gbaldera.yts.models.YtsMovieList;
+import com.gbaldera.yts.loaders.MovieDetailsLoader;
+import com.gbaldera.yts.loaders.MovieDetailsYtsLoader;
+import com.gbaldera.yts.models.YtsMovieDetailsSummary;
 import com.gbaldera.yts.views.ObservableScrollView;
 import com.jakewharton.trakt.entities.Movie;
 import com.squareup.picasso.Picasso;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.List;
 
@@ -31,18 +36,16 @@ public class MovieDetailsActivity extends BaseActivity implements
 
     public static final int MOVIE_TRAKT_LOADER_ID = 100;
     public static final int MOVIE_YTS_LOADER_ID = 101;
-    public static final int MOVIE_SCREENSHOTS_LOADER_ID = 102;
     public static final int MOVIE_ACTORS_LOADER_ID = 103;
     public static final int RELATED_MOVIES_LOADER_ID = 104;
-    public static final int SUBTITLES_LOADER_ID = 105;
 
     public static final String IMDB_ID = "imdbId";
     public static final String YTS_ID = "ytsId";
     private String imdbId;
 
     private Movie mMovie;
-    private YtsMovieList mYtsMovieList;
     private List<Movie> mRelatedMovies;
+    private YtsMovieDetailsSummary movieSummary;
 
     private int mActionBarBackgroundColor;
     private int mStatusBarColor;
@@ -105,6 +108,7 @@ public class MovieDetailsActivity extends BaseActivity implements
         // init loaders
         Bundle args = new Bundle();
         args.putString(IMDB_ID, imdbId);
+        getLoaderManager().initLoader(MOVIE_YTS_LOADER_ID, args, mMovieYtsLoaderCallbacks);
         getLoaderManager().initLoader(MOVIE_TRAKT_LOADER_ID, args, mMovieTraktLoaderCallbacks);
 
         onScroll(-1, 0);
@@ -113,24 +117,49 @@ public class MovieDetailsActivity extends BaseActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_movie_details, menu);
+
+        boolean haveTrailer = movieSummary != null && !TextUtils.isEmpty(movieSummary.YoutubeTrailerUrl);
+        menu.findItem(R.id.action_trailer).setVisible(haveTrailer);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        Intent intent;
 
-        if (id == android.R.id.home) {
-            onBackPressed();
-            return true;
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_trailer:
+                intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(movieSummary.YoutubeTrailerUrl));
+                startActivity(intent);
+                return true;
+            case R.id.action_yts:
+                try{
+                    String encondedTitle = URLEncoder.encode(mMovie.title, "utf-8");
+                    intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://yts.re/browse-movie/" + encondedTitle + "/All/All/0/latest"));
+                    startActivity(intent);
+                }
+                catch (UnsupportedEncodingException e){}
+                return true;
+            case R.id.action_imdb:
+                intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.imdb.com/title/" + imdbId + "/"));
+                startActivity(intent);
+                return true;
+            case R.id.action_subtitles:
+                intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.yifysubtitles.com/movie-imdb/" + imdbId));
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -170,7 +199,11 @@ public class MovieDetailsActivity extends BaseActivity implements
         else
             mTagline.setText(mMovie.tagline);
 
-        mGenre.setVisibility(View.GONE); // TODO: get genre data
+        if (movieSummary != null && !TextUtils.isEmpty(movieSummary.Genre1))
+            mGenre.setText(movieSummary.Genre1 + (!TextUtils.isEmpty(movieSummary.Genre2) ? ", " + movieSummary.Genre2 : ""));
+        else
+            mGenre.setVisibility(View.GONE);
+
 
         mRuntime.setText(TextHelper.getPrettyRuntime(this, mMovie.runtime));
         mReleaseDate.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(mMovie.released));
@@ -209,7 +242,7 @@ public class MovieDetailsActivity extends BaseActivity implements
             = new LoaderManager.LoaderCallbacks<Movie>() {
         @Override
         public Loader<Movie> onCreateLoader(int loaderId, Bundle args) {
-            return new MovieLoader(mActivity, args.getString(IMDB_ID));
+            return new MovieDetailsLoader(mActivity, args.getString(IMDB_ID));
         }
 
         @Override
@@ -230,6 +263,24 @@ public class MovieDetailsActivity extends BaseActivity implements
         @Override
         public void onLoaderReset(Loader<Movie> movieLoader) {
             // nothing to do
+        }
+    };
+
+    private LoaderManager.LoaderCallbacks<YtsMovieDetailsSummary> mMovieYtsLoaderCallbacks
+            = new LoaderManager.LoaderCallbacks<YtsMovieDetailsSummary>() {
+        @Override
+        public Loader<YtsMovieDetailsSummary> onCreateLoader(int id, Bundle args) {
+            return new MovieDetailsYtsLoader(mActivity, args.getString(IMDB_ID));
+        }
+
+        @Override
+        public void onLoadFinished(Loader<YtsMovieDetailsSummary> loader,
+                                   YtsMovieDetailsSummary data) {
+            movieSummary = data;
+        }
+
+        @Override
+        public void onLoaderReset(Loader<YtsMovieDetailsSummary> loader) {
         }
     };
 }

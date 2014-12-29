@@ -2,6 +2,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.gbaldera.yts.activities.MovieDetailsActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item android:id="@+id/action_trailer"
+        android:title="@string/action_trailer"
+        android:icon="@drawable/ic_movie"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
+
+    <item android:title="@string/action_browser"
+        android:orderInCategory="101">
+        <menu>
+            <item
+                android:id="@+id/action_yts"
+                android:title="@string/action_yts"/>
+            <item
+                android:id="@+id/action_imdb"
+                android:title="@string/action_imdb"/>
+        </menu>
+    </item>
+    <item android:id="@+id/action_subtitles"
+        android:title="@string/action_subtitles"
+        android:orderInCategory="102"
+        app:showAsAction="never" />
 </menu>
