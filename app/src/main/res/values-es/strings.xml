@@ -24,19 +24,31 @@
 
 	<string name="app_name">YTS</string>
 	<string name="hello_world">¡Hola mundo!</string>
-	<string name="action_refresh">Actualización</string>
+
+	<string name="action_refresh">Actualizar</string>
 	<string name="action_settings">Configuración</string>
+    <string name="action_browser">Abrir en browser</string>
+    <string name="action_imdb">Abrir en IMDB</string>
+    <string name="action_yts">Abrir en Yts</string>
+    <string name="action_subtitles">Subtítulos</string>
+    <string name="action_trailer">Trailer</string>
+    <string name="action_torrent">Descargar torrent</string>
+    <string name="action_share">Compartir</string>
+    <string name="dialog_torrent">Seleccione la calidad</string>
+
 	<string name="tab_latest">últimas</string>
 	<string name="tab_popular">Popular</string>
 	<string name="tab_upcoming">Próximas</string>
+
 	<string name="hello_blank_fragment">Hola fragmento en blanco</string>
-	<string name="navigation_drawer_open">Cajón abierto navegación</string>
-	<string name="navigation_drawer_close">Cajón de navegación cerca</string>
-	<string name="navdrawer_item_home">Página de inicio</string>
-	<string name="navdrawer_item_search">Búsqueda de</string>
-	<string name="navdrawer_item_requests">Solicitudes de</string>
+	<string name="navigation_drawer_open">Abrir panel de navegación</string>
+	<string name="navigation_drawer_close">Cerrar panel de navegación</string>
+	<string name="navdrawer_item_home">Inicio</string>
+	<string name="navdrawer_item_search">Buscar</string>
+	<string name="navdrawer_item_requests">Solicitudes</string>
 	<string name="navdrawer_item_settings">Configuración</string>
-	<string name="offline">Conectar a una red, inténtelo de nuevo.</string>
+
+	<string name="offline">Conectar a una red e inténtelo de nuevo.</string>
 	<string name="movies_empty">No hay ningúna película para mostrar.</string>
 	<string name="title_activity_search">SearchActivity</string>
     <string name="detailsRunTime">Duración</string>
