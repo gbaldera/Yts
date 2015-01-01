@@ -1,7 +1,9 @@
 package com.gbaldera.yts.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.net.Uri;
@@ -20,8 +22,10 @@ import com.gbaldera.yts.helpers.TextHelper;
 import com.gbaldera.yts.helpers.TraktHelper;
 import com.gbaldera.yts.loaders.MovieDetailsLoader;
 import com.gbaldera.yts.loaders.MovieDetailsYtsLoader;
+import com.gbaldera.yts.models.YtsMovie;
 import com.gbaldera.yts.models.YtsMovieDetailsSummary;
 import com.gbaldera.yts.views.ObservableScrollView;
+import com.github.underscore._;
 import com.jakewharton.trakt.entities.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -120,7 +124,12 @@ public class MovieDetailsActivity extends BaseActivity implements
 
         boolean haveTrailer = (mMovie != null && !TextUtils.isEmpty(mMovie.trailer))
                 || movieSummary != null && !TextUtils.isEmpty(movieSummary.YoutubeTrailerUrl);
+        boolean haveTorrent = movieSummary != null && !TextUtils.isEmpty(movieSummary.YoutubeTrailerUrl);
+        boolean haveShare = movieSummary != null && mMovie != null;
+
         menu.findItem(R.id.action_trailer).setVisible(haveTrailer);
+        menu.findItem(R.id.action_torrent).setVisible(haveTorrent);
+        menu.findItem(R.id.action_share).setVisible(haveShare);
 
         return true;
     }
@@ -145,6 +154,19 @@ public class MovieDetailsActivity extends BaseActivity implements
 
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailer));
                 startActivity(intent);
+                return true;
+            case R.id.action_torrent:
+                showTorrentDialogChooser();
+                return true;
+            case R.id.action_share:
+                try {
+                    String encondedTitle = URLEncoder.encode(mMovie.title, "utf-8");
+                    intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TEXT, movieSummary.MovieTitle +
+                            " - " + "https://yts.re/browse-movie/" + encondedTitle + "/All/All/0/latest");
+                    startActivity(intent);
+                }catch (UnsupportedEncodingException e){}
                 return true;
             case R.id.action_yts:
                 try{
@@ -196,6 +218,33 @@ public class MovieDetailsActivity extends BaseActivity implements
         mLastDampedScroll = dampedScroll;
     }
 
+    private void showTorrentDialogChooser(){
+        if(movieSummary != null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.dialog_torrent).setItems(movieSummary.MovieAvailableQualities
+                            .toArray(new CharSequence[movieSummary.MovieAvailableQualities.size()]),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // The 'which' argument contains the index position
+                            // of the selected item
+                            YtsMovie ytsMovie = movieSummary.MovieList.get(which);
+                            Intent torrentIntent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse(ytsMovie.TorrentUrl));
+                            startActivity(torrentIntent);
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
+
+    private void populateMovieGenre(){
+        if (movieSummary != null && !TextUtils.isEmpty(movieSummary.Genre1))
+            mGenre.setText(movieSummary.Genre1 + (!TextUtils.isEmpty(movieSummary.Genre2) ? ", " + movieSummary.Genre2 : ""));
+        else
+            mGenre.setVisibility(View.GONE);
+    }
+
     private void populateMovieViews() {
         mTitle.setText(mMovie.title);
         //mTitle.setTypeface(mCondensedRegular);
@@ -206,12 +255,6 @@ public class MovieDetailsActivity extends BaseActivity implements
             mTagline.setVisibility(TextView.GONE);
         else
             mTagline.setText(mMovie.tagline);
-
-        if (movieSummary != null && !TextUtils.isEmpty(movieSummary.Genre1))
-            mGenre.setText(movieSummary.Genre1 + (!TextUtils.isEmpty(movieSummary.Genre2) ? ", " + movieSummary.Genre2 : ""));
-        else
-            mGenre.setVisibility(View.GONE);
-
 
         mRuntime.setText(TextHelper.getPrettyRuntime(this, mMovie.runtime));
         mReleaseDate.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(mMovie.released));
@@ -280,6 +323,7 @@ public class MovieDetailsActivity extends BaseActivity implements
         public void onLoadFinished(Loader<YtsMovieDetailsSummary> loader,
                                    YtsMovieDetailsSummary data) {
             movieSummary = data;
+            populateMovieGenre();
             invalidateOptionsMenu();
         }
 

@@ -32,6 +32,9 @@
     <string name="action_yts">Open in Yts</string>
     <string name="action_subtitles">Subtitles</string>
     <string name="action_trailer">Trailer</string>
+    <string name="action_torrent">Download torrent</string>
+    <string name="action_share">Share</string>
+    <string name="dialog_torrent">Choose a quality</string>
 
     <string name="tab_latest">Latest</string>
     <string name="tab_popular">Popular</string>

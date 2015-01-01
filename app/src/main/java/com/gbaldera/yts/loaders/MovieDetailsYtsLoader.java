@@ -38,6 +38,12 @@ public class MovieDetailsYtsLoader extends GenericSimpleLoader<YtsMovieDetailsSu
             movieDetailsSummary.YoutubeTrailerUrl = movieDetails.YoutubeTrailerUrl;
             movieDetailsSummary.Genre1 = movieDetails.Genre1;
             movieDetailsSummary.Genre2 = movieDetails.Genre2;
+            movieDetailsSummary.MovieTitle = movieDetails.MovieTitle;
+
+            movieDetailsSummary.MovieAvailableQualities = new ArrayList<String>();
+            for(YtsMovie movie : movieList.MovieList){
+                movieDetailsSummary.MovieAvailableQualities.add(movie.Quality);
+            }
 
             movieDetailsSummary.MovieScreenshots = new ArrayList<>();
             movieDetailsSummary.MovieScreenshots.add(movieDetails.LargeScreenshot1);

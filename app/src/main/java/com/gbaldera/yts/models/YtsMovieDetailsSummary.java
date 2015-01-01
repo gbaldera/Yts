@@ -6,6 +6,8 @@ import java.util.List;
 public class YtsMovieDetailsSummary {
     public List<YtsMovie> MovieList;
     public List<String> MovieScreenshots;
+    public List<String> MovieAvailableQualities;
+    public String MovieTitle;
     public String YoutubeTrailerID;
     public String YoutubeTrailerUrl;
     public String Genre1;
