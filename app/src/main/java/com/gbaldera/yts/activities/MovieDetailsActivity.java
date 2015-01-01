@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.gbaldera.yts.R;
 import com.gbaldera.yts.helpers.ColorHelper;
-import com.gbaldera.yts.helpers.DisplayHelper;
 import com.gbaldera.yts.helpers.TextHelper;
 import com.gbaldera.yts.helpers.TraktHelper;
 import com.gbaldera.yts.loaders.MovieDetailsLoader;
@@ -119,7 +118,8 @@ public class MovieDetailsActivity extends BaseActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_movie_details, menu);
 
-        boolean haveTrailer = movieSummary != null && !TextUtils.isEmpty(movieSummary.YoutubeTrailerUrl);
+        boolean haveTrailer = (mMovie != null && !TextUtils.isEmpty(mMovie.trailer))
+                || movieSummary != null && !TextUtils.isEmpty(movieSummary.YoutubeTrailerUrl);
         menu.findItem(R.id.action_trailer).setVisible(haveTrailer);
 
         return true;
@@ -134,8 +134,16 @@ public class MovieDetailsActivity extends BaseActivity implements
                 onBackPressed();
                 return true;
             case R.id.action_trailer:
-                intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(movieSummary.YoutubeTrailerUrl));
+                String trailer = "";
+
+                if(mMovie != null && !TextUtils.isEmpty(mMovie.trailer)){
+                    trailer = mMovie.trailer;
+                }
+                else if(movieSummary != null && !TextUtils.isEmpty(movieSummary.YoutubeTrailerUrl)){
+                    trailer = movieSummary.YoutubeTrailerUrl;
+                }
+
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailer));
                 startActivity(intent);
                 return true;
             case R.id.action_yts:
@@ -248,6 +256,7 @@ public class MovieDetailsActivity extends BaseActivity implements
 
             if (movie != null) {
                 populateMovieViews();
+                invalidateOptionsMenu();
             } else {
                 // display offline message
                 mPlot.setText(R.string.offline);
