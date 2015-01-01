@@ -220,15 +220,10 @@ public class MovieDetailsActivity extends BaseActivity implements
         }
 
         // load images
-        int poster_size;
-        if (DisplayHelper.isVeryHighDensityScreen(this)) {
-            poster_size = TraktHelper.POSTER_SIZE_SPEC_138;
-        } else {
-            poster_size = TraktHelper.POSTER_SIZE_SPEC_300;
-        }
-
-        String poster = TraktHelper.resizeImage(mMovie.images.poster, poster_size);
-        String fan_art = TraktHelper.resizeImage(mMovie.images.fanart, TraktHelper.FAN_ART_SIZE_SPEC_940);
+        String poster = TraktHelper.resizeImage(mMovie, TraktHelper.TraktImageType.POSTER,
+                TraktHelper.TraktImageSize.THUMB);
+        String fan_art = TraktHelper.resizeImage(mMovie, TraktHelper.TraktImageType.FANART,
+                TraktHelper.TraktImageSize.THUMB);
         Picasso.with(this)
                 .load(poster)
                 .into(mPoster);
@@ -253,7 +248,6 @@ public class MovieDetailsActivity extends BaseActivity implements
 
             if (movie != null) {
                 populateMovieViews();
-                invalidateOptionsMenu();
             } else {
                 // display offline message
                 mPlot.setText(R.string.offline);
@@ -277,6 +271,7 @@ public class MovieDetailsActivity extends BaseActivity implements
         public void onLoadFinished(Loader<YtsMovieDetailsSummary> loader,
                                    YtsMovieDetailsSummary data) {
             movieSummary = data;
+            invalidateOptionsMenu();
         }
 
         @Override

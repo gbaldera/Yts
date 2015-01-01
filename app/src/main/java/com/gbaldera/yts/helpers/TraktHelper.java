@@ -5,6 +5,41 @@ import java.net.URL;
 
 public class TraktHelper {
 
+    public enum TraktImageSize {
+        FULL("original"),
+        MEDIUM("medium"),
+        THUMB("thumb");
+
+        private final String value;
+
+        private TraktImageSize(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
+    public enum TraktImageType {
+        POSTER("poster"),
+        FANART("fanart"),
+        HEADSHOT("headshot"),
+        SCREEN("screen");
+
+        private final String value;
+
+        private TraktImageType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
     public static final int POSTER_SIZE_SPEC_138 = 138;
     public static final int POSTER_SIZE_SPEC_300 = 300;
     public static final int FAN_ART_SIZE_SPEC_218 = 218;
@@ -30,5 +65,34 @@ public class TraktHelper {
         catch (Exception ex){}
 
         return resizedUrl;
+    }
+
+    /**
+     *
+     * Temporary and dumb method to resize v2 trakt images
+     * */
+    public static String resizeImage(com.jakewharton.trakt.entities.Movie movie, TraktImageType type,
+                                     TraktImageSize size){
+        if(movie != null && movie.images != null){
+            String imageUrl;
+            switch (type){
+                case FANART:
+                    imageUrl = movie.images.fanart;
+                    break;
+                case HEADSHOT:
+                    imageUrl = movie.images.headshot;
+                    break;
+                case SCREEN:
+                    imageUrl = movie.images.screen;
+                    break;
+                default:
+                    imageUrl = movie.images.poster;
+                    break;
+            }
+
+            return imageUrl.replace("original", size.toString());
+        }
+
+        return null;
     }
 }

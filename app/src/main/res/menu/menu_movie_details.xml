@@ -9,8 +9,13 @@
         android:orderInCategory="100"
         app:showAsAction="ifRoom" />
 
+    <item android:id="@+id/action_subtitles"
+        android:title="@string/action_subtitles"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+
     <item android:title="@string/action_browser"
-        android:orderInCategory="101">
+        android:orderInCategory="102">
         <menu>
             <item
                 android:id="@+id/action_yts"
@@ -20,8 +25,4 @@
                 android:title="@string/action_imdb"/>
         </menu>
     </item>
-    <item android:id="@+id/action_subtitles"
-        android:title="@string/action_subtitles"
-        android:orderInCategory="102"
-        app:showAsAction="never" />
 </menu>

@@ -11,10 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gbaldera.yts.R;
-import com.gbaldera.yts.helpers.DisplayHelper;
 import com.gbaldera.yts.helpers.TraktHelper;
-import com.squareup.picasso.Picasso;
 import com.jakewharton.trakt.entities.Movie;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -61,15 +60,8 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
             holder.date.setText("");
         }
 
-        int size;
-
-        if (DisplayHelper.isVeryHighDensityScreen(getContext())) {
-            size = TraktHelper.POSTER_SIZE_SPEC_138;
-        } else {
-            size = TraktHelper.POSTER_SIZE_SPEC_300;
-        }
-
-        String poster = TraktHelper.resizeImage(movie.images.poster, size);
+        String poster = TraktHelper.resizeImage(movie, TraktHelper.TraktImageType.POSTER,
+                TraktHelper.TraktImageSize.THUMB);
 
         if (!TextUtils.isEmpty(poster)) {
             Picasso.with(getContext())

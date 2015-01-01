@@ -11,6 +11,8 @@ import com.gbaldera.yts.models.YtsMovieList;
 import com.gbaldera.yts.network.YtsClient;
 import com.uwetrottmann.androidutils.GenericSimpleLoader;
 
+import java.util.ArrayList;
+
 import timber.log.Timber;
 
 public class MovieDetailsYtsLoader extends GenericSimpleLoader<YtsMovieDetailsSummary> {
@@ -36,6 +38,8 @@ public class MovieDetailsYtsLoader extends GenericSimpleLoader<YtsMovieDetailsSu
             movieDetailsSummary.YoutubeTrailerUrl = movieDetails.YoutubeTrailerUrl;
             movieDetailsSummary.Genre1 = movieDetails.Genre1;
             movieDetailsSummary.Genre2 = movieDetails.Genre2;
+
+            movieDetailsSummary.MovieScreenshots = new ArrayList<>();
             movieDetailsSummary.MovieScreenshots.add(movieDetails.LargeScreenshot1);
             movieDetailsSummary.MovieScreenshots.add(movieDetails.LargeScreenshot2);
             movieDetailsSummary.MovieScreenshots.add(movieDetails.LargeScreenshot3);
