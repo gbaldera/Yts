@@ -6,9 +6,6 @@
     <color name="accent">#14e715</color>
     <color name="transparent">#00000000</color>
 
-    <color name="colorSecondary">@color/material_deep_teal_200</color>
-    <color name="colorSecondaryDark">@color/material_deep_teal_500</color>
-
     <color name="windowBackgroundColor">#ff222222</color>
     <color name="black_translucent">#80000000</color>
 
@@ -24,4 +21,6 @@
 
     <color name="text_dim">#80bebebe</color>
     <color name="text_color_default">#fff</color>
+
+    <color name="card_background_dark">#292929</color>
 </resources>

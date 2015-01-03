@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/movie_item_width"
-    android:layout_height="@dimen/movie_item_height"
-    android:background="@drawable/card_background"
-    android:foreground="?attr/selectableItemBackground"
-    android:minHeight="@dimen/movie_item_height"
-    android:minWidth="@dimen/movie_item_width">
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/card_background_dark" >
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/card_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/movie_psoter"
+        <com.gbaldera.yts.views.GridItemImageView
+            android:id="@+id/movie_poster"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/movie_item_poster_height"
-            android:layout_alignParentTop="true"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
             android:scaleType="centerCrop" />
 
         <TextView
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
             android:id="@+id/movie_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/movie_psoter"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="@dimen/inline_padding"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="1"
+            android:lines="1"
             android:textAppearance="@style/TextAppearance.Subhead"
-            tools:text="Awesome Movie Title" />
+            android:textIsSelectable="false" />
 
         <TextView
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="4dp"
             android:id="@+id/movie_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/movie_title"
-            android:layout_marginRight="@dimen/inline_padding"
-            android:layout_marginLeft="@dimen/inline_padding"
             android:ellipsize="end"
             android:maxLines="1"
+            android:lines="1"
             android:textAppearance="@style/TextAppearance.Caption.Dim"
-            tools:text="November 13, 2013" />
-    </RelativeLayout>
+            android:textIsSelectable="false" />
 
-</FrameLayout>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -288,7 +288,6 @@ public class MovieDetailsActivity extends BaseActivity implements
 
                         Palette.Swatch primary = palette.getVibrantSwatch();
                         Palette.Swatch secondary = palette.getDarkVibrantSwatch();
-                        Palette.Swatch tertiary = palette.getLightVibrantSwatch();
 
                         if (primary == null) {
                             primary = palette.getMutedSwatch();
@@ -296,12 +295,11 @@ public class MovieDetailsActivity extends BaseActivity implements
                         if (secondary == null) {
                             secondary = palette.getDarkMutedSwatch();
                         }
-                        if (tertiary == null) {
-                            tertiary = palette.getLightMutedSwatch();
-                        }
 
-                        mActionBarBackgroundColor = primary.getRgb();
-                        mStatusBarColor = secondary.getRgb();
+                        if(primary != null && secondary != null){
+                            mActionBarBackgroundColor = primary.getRgb();
+                            mStatusBarColor = secondary.getRgb();
+                        }
 
                         // change the background color of the details view
                         try {

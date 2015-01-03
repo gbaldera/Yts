@@ -32,8 +32,6 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // A ViewHolder keeps references to children views to avoid
-        // unnecessary calls to findViewById() on each row.
         ViewHolder holder;
 
         if (convertView == null) {
@@ -42,7 +40,7 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
             holder = new ViewHolder();
             holder.title = (TextView) convertView.findViewById(R.id.movie_title);
             holder.date = (TextView) convertView.findViewById(R.id.movie_date);
-            holder.poster = (ImageView) convertView.findViewById(R.id.movie_psoter);
+            holder.poster = (ImageView) convertView.findViewById(R.id.movie_poster);
 
             convertView.setTag(holder);
         } else {

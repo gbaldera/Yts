@@ -19,12 +19,12 @@
 
     <dimen name="empty_view_width">250dp</dimen>
 
-    <dimen name="movie_item_width">100dp</dimen>
+    <dimen name="movie_item_width">95dp</dimen>
     <dimen name="movie_item_height">214dp</dimen>
     <dimen name="movie_item_poster_height">150dp</dimen>
 
     <dimen name="grid_vertical_spacing">5dp</dimen>
-    <dimen name="grid_horizontal_spacing">8dp</dimen>
+    <dimen name="grid_horizontal_spacing">5dp</dimen>
 
     <!--movie details-->
     <dimen name="movie_detail_fanart_height">224dp</dimen>
