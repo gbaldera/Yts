@@ -1,14 +1,19 @@
 package com.gbaldera.yts.activities;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gbaldera.yts.PaletteTransformation;
 import com.gbaldera.yts.R;
 import com.gbaldera.yts.helpers.ColorHelper;
 import com.gbaldera.yts.helpers.TextHelper;
@@ -25,8 +31,9 @@ import com.gbaldera.yts.loaders.MovieDetailsYtsLoader;
 import com.gbaldera.yts.models.YtsMovie;
 import com.gbaldera.yts.models.YtsMovieDetailsSummary;
 import com.gbaldera.yts.views.ObservableScrollView;
-import com.github.underscore._;
+
 import com.jakewharton.trakt.entities.Movie;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
@@ -82,7 +89,6 @@ public class MovieDetailsActivity extends BaseActivity implements
             return;
         }
 
-        // TODO: get this from poster's color palette
         mActionBarBackgroundColor = getResources().getColor(R.color.color_primary);
         mStatusBarColor = getResources().getColor(R.color.color_primary_dark);
 
@@ -97,7 +103,6 @@ public class MovieDetailsActivity extends BaseActivity implements
         mCertification = (TextView) findViewById(R.id.movie_certification);
         mPoster = (ImageView) findViewById(R.id.movie_poster);
         mFanArt = (ImageView)findViewById(R.id.movie_fanart);
-        //mActorsLayout = (HorizontalCardLayout) view.findViewById(R.id.horizontal_card_layout);
 
         mScrollView = (ObservableScrollView) findViewById(R.id.scrollview);
         mScrollView.setOnScrollChangedCallback(this);
@@ -225,8 +230,6 @@ public class MovieDetailsActivity extends BaseActivity implements
                             .toArray(new CharSequence[movieSummary.MovieAvailableQualities.size()]),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            // The 'which' argument contains the index position
-                            // of the selected item
                             YtsMovie ytsMovie = movieSummary.MovieList.get(which);
                             Intent torrentIntent = new Intent(Intent.ACTION_VIEW,
                                     Uri.parse(ytsMovie.TorrentUrl));
@@ -277,7 +280,41 @@ public class MovieDetailsActivity extends BaseActivity implements
                 TraktHelper.TraktImageSize.THUMB);
         Picasso.with(this)
                 .load(poster)
-                .into(mPoster);
+                .transform(PaletteTransformation.instance())
+                .into(mPoster, new Callback.EmptyCallback() {
+                    @Override public void onSuccess() {
+                        Bitmap bitmap = ((BitmapDrawable) mPoster.getDrawable()).getBitmap();
+                        Palette palette = PaletteTransformation.getPalette(bitmap);
+
+                        Palette.Swatch primary = palette.getVibrantSwatch();
+                        Palette.Swatch secondary = palette.getDarkVibrantSwatch();
+                        Palette.Swatch tertiary = palette.getLightVibrantSwatch();
+
+                        if (primary == null) {
+                            primary = palette.getMutedSwatch();
+                        }
+                        if (secondary == null) {
+                            secondary = palette.getDarkMutedSwatch();
+                        }
+                        if (tertiary == null) {
+                            tertiary = palette.getLightMutedSwatch();
+                        }
+
+                        mActionBarBackgroundColor = primary.getRgb();
+                        mStatusBarColor = secondary.getRgb();
+
+                        // change the background color of the details view
+                        try {
+                            ObjectAnimator backgroundColorAnimator = ObjectAnimator.
+                                    ofObject(mDetailsArea, "backgroundColor", new ArgbEvaluator(),
+                                            0xFF666666, mActionBarBackgroundColor);
+                            backgroundColorAnimator.setDuration(500);
+                            backgroundColorAnimator.start();
+                        } catch (Exception e) {
+                            mDetailsArea.setBackgroundColor(mActionBarBackgroundColor);
+                        }
+                    }
+                });
         Picasso.with(this)
                 .load(fan_art)
                 .into(mFanArt);
