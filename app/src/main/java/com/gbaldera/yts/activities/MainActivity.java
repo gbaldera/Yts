@@ -21,13 +21,19 @@ import com.gbaldera.yts.widgets.SlidingTabLayout;
 import java.util.HashSet;
 import java.util.Set;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public class MainActivity extends BaseDrawerActivity implements
         BaseMovieFragment.MoviesFragmentListener {
 
-    ViewPager mViewPager = null;
+    @InjectView(R.id.view_pager)
+    ViewPager mViewPager;
+
+    @InjectView(R.id.sliding_tabs)
+    SlidingTabLayout mSlidingTabLayout;
     MainTabsViewPagerAdapter mViewPagerAdapter = null;
-    SlidingTabLayout mSlidingTabLayout = null;
 
     private Set<BaseMovieFragment> mMoviesFragments = new HashSet<BaseMovieFragment>();
 
@@ -36,13 +42,11 @@ public class MainActivity extends BaseDrawerActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        ButterKnife.inject(this);
 
         mViewPagerAdapter = new MainTabsViewPagerAdapter(getFragmentManager());
         mViewPager.setAdapter(mViewPagerAdapter);
 
-        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
 
         // add tabs

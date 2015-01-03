@@ -18,6 +18,9 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class MoviesAdapter extends ArrayAdapter<Movie> {
 
     private LayoutInflater mInflater;
@@ -36,12 +39,7 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
 
         if (convertView == null) {
             convertView = mInflater.inflate(LAYOUT, null);
-
-            holder = new ViewHolder();
-            holder.title = (TextView) convertView.findViewById(R.id.movie_title);
-            holder.date = (TextView) convertView.findViewById(R.id.movie_date);
-            holder.poster = (ImageView) convertView.findViewById(R.id.movie_poster);
-
+            holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -84,12 +82,19 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
         }
     }
 
-    static class ViewHolder {
+    public static class ViewHolder {
 
+        @InjectView(R.id.movie_title)
         TextView title;
 
+        @InjectView(R.id.movie_date)
         TextView date;
 
+        @InjectView(R.id.movie_poster)
         ImageView poster;
+
+        public ViewHolder(View v){
+            ButterKnife.inject(this, v);
+        }
     }
 }

@@ -22,6 +22,9 @@ import android.widget.TextView;
 
 import com.gbaldera.yts.R;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public abstract class BaseDrawerActivity extends BaseActivity
         implements AdapterView.OnItemClickListener {
 
@@ -291,8 +294,7 @@ public abstract class BaseDrawerActivity extends BaseActivity
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(
                         R.layout.navdrawer_item, parent, false);
-                holder = new ViewHolder();
-                holder.attach(convertView);
+                holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -306,15 +308,16 @@ public abstract class BaseDrawerActivity extends BaseActivity
         }
     }
 
-    private static class ViewHolder {
+    public static class ViewHolder {
 
-        public TextView title;
+        @InjectView(R.id.title)
+        TextView title;
 
-        public ImageView icon;
+        @InjectView(R.id.icon)
+        ImageView icon;
 
-        public void attach(View v) {
-            icon = (ImageView) v.findViewById(R.id.icon);
-            title = (TextView) v.findViewById(R.id.title);
+        public ViewHolder(View v){
+            ButterKnife.inject(this, v);
         }
     }
 }

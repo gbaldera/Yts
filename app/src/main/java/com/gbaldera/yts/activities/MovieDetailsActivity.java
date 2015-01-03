@@ -41,6 +41,9 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class MovieDetailsActivity extends BaseActivity implements
         ObservableScrollView.OnScrollChangedCallback {
 
@@ -61,11 +64,19 @@ public class MovieDetailsActivity extends BaseActivity implements
     private int mStatusBarColor;
     private int mLastDampedScroll;
 
-    private ImageView mFanArt, mPoster;
-    private View mDetailsArea;
-    private TextView mTitle, mPlot, mGenre, mRuntime, mReleaseDate, mRating, mTagline, mCertification;
-    private ObservableScrollView mScrollView;
-    private View mProgressBar;
+    @InjectView(R.id.movie_fanart) ImageView mFanArt;
+    @InjectView(R.id.movie_poster) ImageView mPoster;
+    @InjectView(R.id.details_area) View mDetailsArea;
+    @InjectView(R.id.movie_title) TextView mTitle;
+    @InjectView(R.id.movie_plot) TextView mPlot;
+    @InjectView(R.id.movie_genre) TextView mGenre;
+    @InjectView(R.id.movie_runtime) TextView mRuntime;
+    @InjectView(R.id.movie_release_date) TextView mReleaseDate;
+    @InjectView(R.id.movie_rating) TextView mRating;
+    @InjectView(R.id.movie_tagline) TextView mTagline;
+    @InjectView(R.id.movie_certification) TextView mCertification;
+    @InjectView(R.id.scrollview) ObservableScrollView mScrollView;
+    @InjectView(R.id.progress_layout) View mProgressBar;
     private Activity mActivity;
     private Handler mHandler = new Handler();
 
@@ -73,6 +84,7 @@ public class MovieDetailsActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+        ButterKnife.inject(this);
 
         mHandler.post(new Runnable() {
             @Override
@@ -92,23 +104,9 @@ public class MovieDetailsActivity extends BaseActivity implements
         mActionBarBackgroundColor = getResources().getColor(R.color.color_primary);
         mStatusBarColor = getResources().getColor(R.color.color_primary_dark);
 
-        mDetailsArea = findViewById(R.id.details_area);
-        mTitle = (TextView) findViewById(R.id.movie_title);
-        mPlot = (TextView) findViewById(R.id.movie_plot);
-        mGenre = (TextView) findViewById(R.id.movie_genre);
-        mRuntime = (TextView) findViewById(R.id.movie_runtime);
-        mReleaseDate = (TextView) findViewById(R.id.movie_release_date);
-        mRating = (TextView) findViewById(R.id.movie_rating);
-        mTagline = (TextView) findViewById(R.id.movie_tagline);
-        mCertification = (TextView) findViewById(R.id.movie_certification);
-        mPoster = (ImageView) findViewById(R.id.movie_poster);
-        mFanArt = (ImageView)findViewById(R.id.movie_fanart);
-
-        mScrollView = (ObservableScrollView) findViewById(R.id.scrollview);
         mScrollView.setOnScrollChangedCallback(this);
         mScrollView.setVisibility(View.GONE);
 
-        mProgressBar = findViewById(R.id.progress_layout);
         mProgressBar.setVisibility(View.VISIBLE);
 
         mActivity = this;
