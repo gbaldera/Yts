@@ -20,7 +20,7 @@
     <dimen name="empty_view_width">250dp</dimen>
 
     <dimen name="movie_item_width">95dp</dimen>
-    <dimen name="movie_item_height">214dp</dimen>
+    <dimen name="movie_item_height">147dp</dimen>
     <dimen name="movie_item_poster_height">150dp</dimen>
 
     <dimen name="grid_vertical_spacing">5dp</dimen>
@@ -41,4 +41,5 @@
     <dimen name="content_details_area_subheader">12sp</dimen>
     <dimen name="content_details_area_header">16sp</dimen>
     <dimen name="content_details_body_text">16sp</dimen>
+    <dimen name="details_padding">16dp</dimen>
 </resources>

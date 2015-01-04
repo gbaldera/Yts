@@ -4,6 +4,8 @@
     <dimen name="navdrawer_width">320dp</dimen>
 
     <dimen name="movie_item_width">135dp</dimen>
+    <dimen name="movie_item_height">218dp</dimen>
+
     <dimen name="grid_horizontal_spacing">8dp</dimen>
     <dimen name="grid_vertical_spacing">8dp</dimen>
 
@@ -22,4 +24,5 @@
     <dimen name="content_details_area_subheader">16sp</dimen>
     <dimen name="content_details_area_header">20sp</dimen>
     <dimen name="content_details_body_text">20sp</dimen>
+    <dimen name="details_padding">24dp</dimen>
 </resources>

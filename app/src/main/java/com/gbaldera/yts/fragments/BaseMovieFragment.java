@@ -22,15 +22,18 @@ import com.uwetrottmann.androidutils.AndroidUtils;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public abstract class BaseMovieFragment extends Fragment implements AdapterView.OnItemClickListener,
         LoaderManager.LoaderCallbacks<List<Movie>> {
 
     protected static final int LAYOUT = R.layout.fragment_movies;
-    private View mMoviesContainer;
-    private GridView mGridView;
-    private TextView mEmptyView;
-    private ProgressBar mProgressBar;
+    @InjectView(R.id.movies_container) View mMoviesContainer;
+    @InjectView(R.id.movies_list) GridView mGridView;
+    @InjectView(R.id.text_empty) TextView mEmptyView;
+    @InjectView(R.id.progress_bar) ProgressBar mProgressBar;
 
     protected MoviesAdapter mMoviesAdapter;
 
@@ -48,10 +51,7 @@ public abstract class BaseMovieFragment extends Fragment implements AdapterView.
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(LAYOUT, container, false);
-        mMoviesContainer = v.findViewById(R.id.movies_container);
-        mGridView = (GridView) v.findViewById(R.id.movies_list);
-        mEmptyView = (TextView) v.findViewById(R.id.text_empty);
-        mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
+        ButterKnife.inject(this, v);
 
         mGridView.setEmptyView(mEmptyView);
         mGridView.setOnItemClickListener(this);

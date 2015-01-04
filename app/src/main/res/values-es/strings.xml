@@ -34,6 +34,7 @@
     <string name="action_trailer">Trailer</string>
     <string name="action_torrent">Descargar torrent</string>
     <string name="action_share">Compartir</string>
+    <string name="action_search">Buscar</string>
     <string name="dialog_torrent">Seleccione la calidad</string>
 
 	<string name="tab_latest">últimas</string>
@@ -55,5 +56,8 @@
     <string name="detailsCertification">Clasificación</string>
     <string name="detailsRating">Valoración</string>
     <string name="stringNA">N/A</string>
+
+    <string name="search_hint">Buscar</string>
+    <string name="no_results_found">No se encontraron resultados</string>
 
 </resources>
