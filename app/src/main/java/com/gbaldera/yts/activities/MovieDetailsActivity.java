@@ -35,6 +35,7 @@ import com.gbaldera.yts.views.ObservableScrollView;
 import com.jakewharton.trakt.entities.Movie;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.uwetrottmann.androidutils.AndroidUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -334,8 +335,11 @@ public class MovieDetailsActivity extends BaseActivity implements
                 populateMovieViews();
                 invalidateOptionsMenu();
             } else {
-                // display offline message
-                mPlot.setText(R.string.offline);
+                if (AndroidUtils.isNetworkConnected(mActivity)) {
+                    mPlot.setText(R.string.movies_details_empty);
+                } else {
+                    mPlot.setText(R.string.offline);
+                }
             }
         }
 

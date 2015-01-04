@@ -51,7 +51,7 @@
 
 	<string name="offline">Conectar a una red e inténtelo de nuevo.</string>
 	<string name="movies_empty">No hay ningúna película para mostrar.</string>
-	<string name="title_activity_search">SearchActivity</string>
+    <string name="movies_details_empty">Los detalles de la película no ha cargado correctamente. Por favor, inténtalo de nuevo</string>
     <string name="detailsRunTime">Duración</string>
     <string name="detailsCertification">Clasificación</string>
     <string name="detailsRating">Valoración</string>

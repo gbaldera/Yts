@@ -51,8 +51,7 @@
 
     <string name="offline">Connect to a network, then try again.</string>
     <string name="movies_empty">There is no movies to show.</string>
-    <string name="title_activity_search">SearchActivity</string>
-    <string name="title_activity_movie_details">MovieDetailsActivity</string>
+    <string name="movies_details_empty">The movie details has failed to load. Please try again.</string>
     <string name="detailsRunTime">Runtime</string>
     <string name="detailsCertification">Certification</string>
     <string name="detailsRating">Rating</string>
