@@ -15,7 +15,9 @@ import com.gbaldera.yts.fragments.SearchMoviesFragment;
 
 public class SearchActivity extends BaseDrawerActivity {
 
-    private SearchMoviesFragment mSearchFragment = null;
+    private static String TAG = "SearchMoviesFragment";
+
+    private SearchMoviesFragment mSearchFragment;
     private SearchView mSearchView = null;
     private String mQuery = "";
 
@@ -24,10 +26,12 @@ public class SearchActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        if (savedInstanceState == null) {
+        mSearchFragment = ( SearchMoviesFragment) getFragmentManager().findFragmentByTag(TAG);
+
+        if (mSearchFragment == null) {
             mSearchFragment = new SearchMoviesFragment();
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, mSearchFragment)
+                    .add(R.id.container, mSearchFragment, TAG)
                     .commit();
         }
     }

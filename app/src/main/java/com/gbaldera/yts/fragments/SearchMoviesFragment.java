@@ -28,11 +28,13 @@ import butterknife.InjectView;
 public class SearchMoviesFragment extends Fragment implements AdapterView.OnItemClickListener,
         LoaderManager.LoaderCallbacks<List<Movie>> {
 
-    public static final int SEARCH_MOVIES_LOADER_ID = 100;
+    private static final int SEARCH_MOVIES_LOADER_ID = 100;
     public static final String SEARCH_QUERY = "query";
+    public static final String PROGRESS_RUNNING = "progressRunning";
 
     private String mQuery = "";
     private SearchMoviesAdapter mMoviesAdapter;
+    private boolean progressRunning;
 
     @InjectView(R.id.search_results_container) View mResultsContainer;
     @InjectView(R.id.listView) ListView mListView;
@@ -45,6 +47,7 @@ public class SearchMoviesFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
@@ -68,8 +71,12 @@ public class SearchMoviesFragment extends Fragment implements AdapterView.OnItem
         mListView.setEmptyView(noResults);
         mListView.setOnItemClickListener(this);
 
-        setProgressVisible(false);
-
+        if(savedInstanceState != null){
+            setProgressVisible(savedInstanceState.getBoolean(PROGRESS_RUNNING));
+        }
+        else {
+            setProgressVisible(false);
+        }
         return v;
     }
 
@@ -137,7 +144,14 @@ public class SearchMoviesFragment extends Fragment implements AdapterView.OnItem
         mMoviesAdapter.setData(null);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(PROGRESS_RUNNING, progressRunning);
+    }
+
     private void setProgressVisible(boolean visible) {
+        progressRunning = visible;
         mResultsContainer.setVisibility(visible ? View.GONE : View.VISIBLE);
         mProgressBar.setVisibility(visible ? View.VISIBLE : View.GONE);
     }

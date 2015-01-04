@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/details_padding"
+    android:paddingRight="@dimen/details_padding"
+    android:paddingTop="@dimen/details_padding">
 
     <FrameLayout
         android:id="@+id/search_results_container"
