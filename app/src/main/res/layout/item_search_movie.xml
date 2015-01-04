@@ -25,8 +25,7 @@
             android:shadowDx="1.0"
             android:shadowDy="1.0"
             android:shadowRadius="1.0"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#f0f0f0" />
+            android:textAppearance="@style/TextAppearance" />
 
         <TextView
             android:id="@+id/movie_date"
@@ -37,8 +36,18 @@
             android:shadowDx="1.0"
             android:shadowDy="1.0"
             android:shadowRadius="1.0"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#f0f0f0" />
+            android:textAppearance="@style/TextAppearance.Caption" />
+
+        <TextView
+            android:id="@+id/movie_runtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:shadowColor="#000"
+            android:shadowDx="1.0"
+            android:shadowDy="1.0"
+            android:shadowRadius="1.0"
+            android:textAppearance="@style/TextAppearance.Caption.Dim" />
     </LinearLayout>
 
 </LinearLayout>

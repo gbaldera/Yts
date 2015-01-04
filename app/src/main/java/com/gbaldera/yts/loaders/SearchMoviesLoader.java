@@ -35,15 +35,16 @@ public class SearchMoviesLoader extends GenericSimpleLoader<List<Movie>> {
         if(!TextUtils.isEmpty(mQuery)){
             try{
                 YtsMovieList ytsMovieList = ServicesHelper.getYtsService(getContext()).
-                        list(100, 1, YtsMovieQuality.ALL, 0, mQuery, YtsMovieGenre.ALL,
+                        list(50, 1, YtsMovieQuality.ALL, 0, mQuery, YtsMovieGenre.ALL,
                                 YtsMovieSort.DATE, YtsMovieOrder.DESC);
 
                 Timber.d("Searching Yts for: " + mQuery);
 
-                if(ytsMovieList == null){
+                if(ytsMovieList.MovieCount == 0){
                     return null;
                 }
 
+                Timber.d("Total results: " + ytsMovieList.MovieCount);
 
                 List<Object> imbIdObjects = _.uniq(_.pluck(ytsMovieList.MovieList, "ImdbCode"));
                 List<String> imbIds = new ArrayList<String>();

@@ -10,11 +10,10 @@
 
         <TextView
             android:id="@+id/text_empty"
-            android:layout_width="@dimen/empty_view_width"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:padding="10dp"
+            android:layout_gravity="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:visibility="gone" />
 
         <GridView

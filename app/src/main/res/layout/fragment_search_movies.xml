@@ -24,7 +24,8 @@
             android:clipToPadding="false"
             android:divider="@null"
             android:dividerHeight="8dp"
-            android:paddingBottom="@dimen/details_padding" >
+            android:paddingBottom="@dimen/details_padding"
+            android:paddingTop="@dimen/details_padding">
         </ListView>
 
     </FrameLayout>

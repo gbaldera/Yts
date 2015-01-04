@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gbaldera.yts.R;
+import com.gbaldera.yts.helpers.TextHelper;
 import com.gbaldera.yts.helpers.TraktHelper;
 import com.jakewharton.trakt.entities.Movie;
 import com.squareup.picasso.Picasso;
@@ -56,6 +57,8 @@ public class SearchMoviesAdapter extends ArrayAdapter<Movie> {
             holder.date.setText("");
         }
 
+        holder.runtime.setText(TextHelper.getPrettyRuntime(getContext(), movie.runtime));
+
         String poster = TraktHelper.resizeImage(movie, TraktHelper.TraktImageType.POSTER,
                 TraktHelper.TraktImageSize.THUMB);
 
@@ -89,6 +92,9 @@ public class SearchMoviesAdapter extends ArrayAdapter<Movie> {
 
         @InjectView(R.id.movie_date)
         TextView date;
+
+        @InjectView(R.id.movie_runtime)
+        TextView runtime;
 
         @InjectView(R.id.movie_poster)
         ImageView poster;
