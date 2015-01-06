@@ -13,7 +13,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         buildConfigField("String", "TRAKT_API_KEY", "\"${loadStringPropertyOrPlaceholder("TRAKT_API_KEY")}\"")
     }
@@ -45,6 +45,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.1.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0'
 
-    compile 'com.uwetrottmann:tmdb-java:0.7.0'
     compile 'com.uwetrottmann:trakt-java:3.3.1'
 }

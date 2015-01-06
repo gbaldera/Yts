@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--Notifications-->
+    <PreferenceCategory
+        android:title="@string/pref_notifications_title"
+        android:key="pref_key_notifications_settings">
+        <CheckBoxPreference
+            android:key="pref_key_enable_notifications"
+            android:summary="@string/pref_summary_enable_notifications"
+            android:title="@string/pref_title_enable_notifications"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+    <!--About-->
+    <PreferenceCategory
+        android:title="@string/pref_about_title"
+        android:key="pref_key_about_settings">
+        <Preference
+            android:key="pref_key_open_source_licenses"
+            android:summary="@string/pref_summary_open_source_licenses"
+            android:title="@string/pref_title_open_source_licenses" />
+        <Preference
+            android:key="pref_key_yts_api"
+            android:summary="@string/pref_summary_yts_api"
+            android:title="@string/pref_title_yts_api" />
+        <Preference
+            android:key="pref_key_trakt_api"
+            android:summary="@string/pref_summary_trakt_api"
+            android:title="@string/pref_title_trakt_api" />
+        <Preference
+            android:key="pref_key_app_website"
+            android:title="@string/pref_title_app_website"/>
+        <Preference
+            android:key="pref_key_version"
+            android:summary="@string/pref_summary_version"
+            android:title="@string/pref_title_version" />
+    </PreferenceCategory>
+</PreferenceScreen>

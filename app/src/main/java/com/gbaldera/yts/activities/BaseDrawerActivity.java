@@ -31,7 +31,7 @@ public abstract class BaseDrawerActivity extends BaseActivity
     protected static final int NAVDRAWER_ITEM_HOME = 0;
     protected static final int NAVDRAWER_ITEM_SEARCH = 1;
     protected static final int NAVDRAWER_ITEM_REQUESTS = 2;
-    protected static final int NAVDRAWER_ITEM_SETTINGS = 3;
+    protected static final int NAVDRAWER_ITEM_SETTINGS = 4;
     protected static final int NAVDRAWER_ITEM_INVALID = -1;
     protected static final int NAVDRAWER_ITEM_SEPARATOR = -2;
 
@@ -40,6 +40,7 @@ public abstract class BaseDrawerActivity extends BaseActivity
             R.string.navdrawer_item_home,
             R.string.navdrawer_item_search,
             R.string.navdrawer_item_requests,
+            0,
             R.string.navdrawer_item_settings
     };
 
@@ -47,6 +48,7 @@ public abstract class BaseDrawerActivity extends BaseActivity
             R.drawable.ic_drawer_home,
             R.drawable.ic_drawer_search,
             R.drawable.ic_drawer_requests,
+            0,
             R.drawable.ic_drawer_settings
     };
 
@@ -140,6 +142,9 @@ public abstract class BaseDrawerActivity extends BaseActivity
                 break;
             case NAVDRAWER_ITEM_SEARCH:
                 intent = new Intent(this, SearchActivity.class);
+                break;
+            case NAVDRAWER_ITEM_SETTINGS:
+                intent = new Intent(this, SettingsActivity.class);
                 break;
         }
 
