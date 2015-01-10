@@ -16,6 +16,8 @@ android {
         versionName "1.0.0"
 
         buildConfigField("String", "TRAKT_API_KEY", "\"${loadStringPropertyOrPlaceholder("TRAKT_API_KEY")}\"")
+        buildConfigField("String", "PARSE_APP_ID", "\"${loadStringPropertyOrPlaceholder("PARSE_APP_ID")}\"")
+        buildConfigField("String", "PARSE_CLIENT_KEY", "\"${loadStringPropertyOrPlaceholder("PARSE_CLIENT_KEY")}\"")
     }
     buildTypes {
         release {
@@ -28,8 +30,10 @@ android {
 dependencies {
     compile project(':libraries:androidutils')
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/underscore.jar')
+    compile files('libs/Parse-1.8.0.jar')
+
+    compile 'com.parse.bolts:bolts-android:1.1.4'
 
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:palette-v7:21.0.2'

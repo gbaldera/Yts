@@ -17,7 +17,14 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.webkit.WebView;
 
+import com.gbaldera.yts.BuildConfig;
 import com.gbaldera.yts.R;
+import com.gbaldera.yts.helpers.SettingsHelper;
+import com.parse.ParseException;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
+
+import timber.log.Timber;
 
 public class SettingsFragment extends PreferenceFragment implements
         SharedPreferences.OnSharedPreferenceChangeListener {
@@ -25,6 +32,7 @@ public class SettingsFragment extends PreferenceFragment implements
     public static final String PREF_KEY_ENABLE_NOTIFICATIONS = "pref_key_enable_notifications";
     public static final String PREF_KEY_OPEN_SOURCE_LICENSES = "pref_key_open_source_licenses";
     public static final String PREF_KEY_APP_WEBSITE = "pref_key_app_website";
+    public static final String PREF_KEY_APP_VERSION = "pref_key_version";
 
     public SettingsFragment() {
     }
@@ -56,12 +64,48 @@ public class SettingsFragment extends PreferenceFragment implements
                 return true;
             }
         });
+
+        // app version
+        Preference appVersion = findPreference(PREF_KEY_APP_VERSION);
+        appVersion.setSummary(BuildConfig.VERSION_NAME);
+
+        SettingsHelper.registerOnSharedPreferenceChangeListener(getActivity(), this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SettingsHelper.unregisterOnSharedPreferenceChangeListener(getActivity(), this);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(key.equals(PREF_KEY_ENABLE_NOTIFICATIONS)){
-            // TODO: enable/disable push notifications here
+            boolean notificationsEnabled = sharedPreferences.getBoolean(PREF_KEY_ENABLE_NOTIFICATIONS, true);
+            if(notificationsEnabled){
+                ParsePush.subscribeInBackground("", new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Timber.d("successfully subscribed to the broadcast channel.");
+                        } else {
+                            Timber.e(e, "failed to subscribe for push");
+                        }
+                    }
+                });
+            }
+            else {
+                ParsePush.unsubscribeInBackground("", new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Timber.d("successfully un-subscribed from the broadcast channel.");
+                        } else {
+                            Timber.e(e, "failed to un-subscribe for push");
+                        }
+                    }
+                });
+            }
         }
     }
 
