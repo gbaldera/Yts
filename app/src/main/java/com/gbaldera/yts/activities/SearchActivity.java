@@ -1,14 +1,12 @@
 package com.gbaldera.yts.activities;
 
+import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.gbaldera.yts.R;
 import com.gbaldera.yts.fragments.SearchMoviesFragment;
@@ -26,6 +24,12 @@ public class SearchActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        if(getIntent().getAction().equals(Intent.ACTION_SEARCH)){
+            String query = getIntent().getStringExtra(SearchManager.QUERY);
+            query = query == null ? "" : query;
+            mQuery = query;
+        }
+
         mSearchFragment = ( SearchMoviesFragment) getFragmentManager().findFragmentByTag(TAG);
 
         if (mSearchFragment == null) {
@@ -33,6 +37,10 @@ public class SearchActivity extends BaseDrawerActivity {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, mSearchFragment, TAG)
                     .commit();
+        }
+
+        if (mSearchView != null) {
+            mSearchView.setQuery(mQuery, false);
         }
     }
 
