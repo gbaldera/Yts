@@ -17,6 +17,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.webkit.WebView;
 
+import com.crashlytics.android.Crashlytics;
 import com.gbaldera.yts.BuildConfig;
 import com.gbaldera.yts.R;
 import com.gbaldera.yts.helpers.SettingsHelper;
@@ -59,7 +60,7 @@ public class SettingsFragment extends PreferenceFragment implements
         appWebsitePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://github.com/gbaldera/Yts"));
+                intent.setData(Uri.parse("https://gbaldera.github.com/Yts"));
                 activity.startActivity(intent);
                 return true;
             }
