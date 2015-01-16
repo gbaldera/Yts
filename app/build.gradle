@@ -59,7 +59,7 @@ android {
                     def formattedDate = date.format('yyyyMMddHHmmss')
                     output.outputFile = new File(
                             output.outputFile.parent,
-                            output.outputFile.name.replace("release.apk", "v${variant.versionName}-${formattedDate}.apk")
+                            "${variant.applicationId}-v${variant.versionName}-${formattedDate}.apk"
                     )
                 }
             }
