@@ -34,10 +34,39 @@ android {
         buildConfigField("String", "PARSE_APP_ID", "\"${loadStringPropertyOrPlaceholder("PARSE_APP_ID")}\"")
         buildConfigField("String", "PARSE_CLIENT_KEY", "\"${loadStringPropertyOrPlaceholder("PARSE_CLIENT_KEY")}\"")
     }
+
+    signingConfigs{
+        release{
+            if(rootProject.file('keystore.properties').exists()) {
+                def props = new Properties()
+                props.load(new FileInputStream(rootProject.file('keystore.properties')))
+
+                storeFile = file(props['storeFile'])
+                storePassword = props['storePassword']
+                keyAlias = props['keyAlias']
+                keyPassword = props['keyPassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def date = new Date();
+                    def formattedDate = date.format('yyyyMMddHHmmss')
+                    output.outputFile = new File(
+                            output.outputFile.parent,
+                            output.outputFile.name.replace("release.apk", "v${variant.versionName}-${formattedDate}.apk")
+                    )
+                }
+            }
+
+            if(rootProject.file('keystore.properties').exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 }
