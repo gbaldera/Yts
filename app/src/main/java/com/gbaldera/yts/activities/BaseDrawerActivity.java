@@ -31,7 +31,7 @@ public abstract class BaseDrawerActivity extends BaseActivity
     protected static final int NAVDRAWER_ITEM_HOME = 0;
     protected static final int NAVDRAWER_ITEM_SEARCH = 1;
     protected static final int NAVDRAWER_ITEM_REQUESTS = 2;
-    protected static final int NAVDRAWER_ITEM_SETTINGS = 4;
+    protected static final int NAVDRAWER_ITEM_SETTINGS = 3;
     protected static final int NAVDRAWER_ITEM_INVALID = -1;
     protected static final int NAVDRAWER_ITEM_SEPARATOR = -2;
 
@@ -39,7 +39,7 @@ public abstract class BaseDrawerActivity extends BaseActivity
     private static final int[] NAVDRAWER_TITLE_RES_ID = new int[]{
             R.string.navdrawer_item_home,
             R.string.navdrawer_item_search,
-            R.string.navdrawer_item_requests,
+            //R.string.navdrawer_item_requests,
             0,
             R.string.navdrawer_item_settings
     };
@@ -47,7 +47,7 @@ public abstract class BaseDrawerActivity extends BaseActivity
     private static final int[] NAVDRAWER_ICON_RES_ID = new int[] {
             R.drawable.ic_drawer_home,
             R.drawable.ic_drawer_search,
-            R.drawable.ic_drawer_requests,
+            //R.drawable.ic_drawer_requests,
             0,
             R.drawable.ic_drawer_settings
     };
@@ -211,8 +211,8 @@ public abstract class BaseDrawerActivity extends BaseActivity
                 NAVDRAWER_ICON_RES_ID[NAVDRAWER_ITEM_HOME]));
         mDrawerAdapter.add(new DrawerItem(NAVDRAWER_TITLE_RES_ID[NAVDRAWER_ITEM_SEARCH],
                 NAVDRAWER_ICON_RES_ID[NAVDRAWER_ITEM_SEARCH]));
-        mDrawerAdapter.add(new DrawerItem(NAVDRAWER_TITLE_RES_ID[NAVDRAWER_ITEM_REQUESTS],
-                NAVDRAWER_ICON_RES_ID[NAVDRAWER_ITEM_REQUESTS]));
+//        mDrawerAdapter.add(new DrawerItem(NAVDRAWER_TITLE_RES_ID[NAVDRAWER_ITEM_REQUESTS],
+//                NAVDRAWER_ICON_RES_ID[NAVDRAWER_ITEM_REQUESTS]));
 
         mDrawerAdapter.add(new DrawerItemSeparator());
 

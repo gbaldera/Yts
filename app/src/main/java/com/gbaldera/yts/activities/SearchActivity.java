@@ -24,7 +24,7 @@ public class SearchActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        if(getIntent().getAction().equals(Intent.ACTION_SEARCH)){
+        if(getIntent().getAction() != null && getIntent().getAction().equals(Intent.ACTION_SEARCH)){
             String query = getIntent().getStringExtra(SearchManager.QUERY);
             query = query == null ? "" : query;
             mQuery = query;

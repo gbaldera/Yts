@@ -68,7 +68,7 @@ public class SettingsFragment extends PreferenceFragment implements
 
         // app version
         Preference appVersion = findPreference(PREF_KEY_APP_VERSION);
-        appVersion.setSummary(BuildConfig.VERSION_NAME);
+        appVersion.setSummary("v" + BuildConfig.VERSION_NAME);
 
         SettingsHelper.registerOnSharedPreferenceChangeListener(getActivity(), this);
     }

@@ -15,3 +15,34 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Allow obfuscation of android.support.v7.internal.view.menu.**
+# to avoid problem on Samsung 4.2.2 devices with appcompat v21
+# see https://code.google.com/p/android/issues/detail?id=78377
+-keep class !android.support.v7.internal.view.menu.** { *; }
+
+# ButterKnife uses some annotations not available on Android.
+-dontwarn butterknife.internal.**
+# Prevent ButterKnife annotations from getting renamed.
+-keepnames class * { @butterknife.InjectView *;}
+
+# OkHttp has some internal stuff not available on Android.
+-dontwarn com.squareup.okhttp.internal.**
+
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
+# Gson specific classes
+-dontwarn sun.misc.Unsafe
+
+# Okio has some stuff not available on Android.
+-dontwarn java.nio.file.*
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+# Retrofit has some optional dependencies we don't use.
+-dontwarn rx.**
+-dontwarn retrofit.appengine.**
+
+-keepattributes *Annotation*
+-keep class com.parse.** { *; }
+-dontwarn com.parse.**

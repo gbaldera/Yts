@@ -66,9 +66,9 @@
     <string name="pref_title_open_source_licenses">Open source licenses</string>
     <string name="pref_summary_open_source_licenses">License details about used open-source software.</string>
     <string name="pref_title_yts_api">Powered by Yts API</string>
-    <string name="pref_summary_yts_api">This App uses the Yts API but is not endorsed or certified by Yts.</string>
+    <string name="pref_summary_yts_api">This App uses the Yts API.</string>
     <string name="pref_title_trakt_api">Powered by Trakt.tv API</string>
-    <string name="pref_summary_trakt_api">This App uses the Trakt.tv API but is not endorsed or certified by Trakt.tv.</string>
+    <string name="pref_summary_trakt_api">This App uses the Trakt.tv API.</string>
     <string name="pref_title_app_website">App Website</string>
     <string name="pref_title_version">App version</string>
     <string name="pref_summary_version">v1.0.0</string>
