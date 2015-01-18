@@ -20,3 +20,5 @@
 TRAKT_API_KEY = your_trakt_api_key
 PARSE_APP_ID = your_parse_app_id
 PARSE_CLIENT_KEY = your_parse_client_key
+AD_UNIT_ID = your_ad_unit_id
+AD_TEST_DEVICE_ID = your_test_device_id (from the logcat)
