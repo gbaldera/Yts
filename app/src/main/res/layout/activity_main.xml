@@ -33,6 +33,9 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+        <!--AdMob-->
+        <include layout="@layout/admob_ad"/>
+
     </LinearLayout>
 
     <!-- Navigation Drawer -->

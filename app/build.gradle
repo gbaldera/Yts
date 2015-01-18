@@ -27,12 +27,27 @@ android {
         applicationId "com.gbaldera.yts"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 2
+        versionName "1.0.1"
 
         buildConfigField("String", "TRAKT_API_KEY", "\"${loadStringPropertyOrPlaceholder("TRAKT_API_KEY")}\"")
         buildConfigField("String", "PARSE_APP_ID", "\"${loadStringPropertyOrPlaceholder("PARSE_APP_ID")}\"")
         buildConfigField("String", "PARSE_CLIENT_KEY", "\"${loadStringPropertyOrPlaceholder("PARSE_CLIENT_KEY")}\"")
+        buildConfigField("String", "AD_UNIT_ID", "\"${loadStringPropertyOrPlaceholder("AD_UNIT_ID")}\"")
+        buildConfigField("String", "AD_TEST_DEVICE_ID", "\"${loadStringPropertyOrPlaceholder("AD_TEST_DEVICE_ID")}\"")
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            if (variant.buildType.name != "debug") {
+                def date = new Date();
+                def formattedDate = date.format('yyyyMMddHHmmss')
+                output.outputFile = new File(
+                        output.outputFile.parent,
+                        "${variant.applicationId}-v${variant.versionName}-${formattedDate}.apk"
+                )
+            }
+        }
     }
 
     signingConfigs{
@@ -53,20 +68,14 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def date = new Date();
-                    def formattedDate = date.format('yyyyMMddHHmmss')
-                    output.outputFile = new File(
-                            output.outputFile.parent,
-                            "${variant.applicationId}-v${variant.versionName}-${formattedDate}.apk"
-                    )
-                }
-            }
 
             if(rootProject.file('keystore.properties').exists()) {
                 signingConfig signingConfigs.release
             }
+        }
+
+        debug {
+            debuggable true
         }
     }
 }
@@ -84,6 +93,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:21.0.2'
     compile 'com.android.support:support-v13:21.0.2'
     compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.google.android.gms:play-services:6.+'
 
     compile 'com.jakewharton:butterknife:6.0.0'
     compile 'com.jakewharton.timber:timber:2.5.0'

@@ -8,10 +8,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.LinearLayout;
 
+import com.gbaldera.yts.BuildConfig;
 import com.gbaldera.yts.R;
 import com.gbaldera.yts.helpers.ColorHelper;
 import com.gbaldera.yts.widgets.MultiSwipeRefreshLayout;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 public abstract class BaseActivity extends ActionBarActivity implements
         MultiSwipeRefreshLayout.CanChildScrollUpCallback {
@@ -19,6 +25,9 @@ public abstract class BaseActivity extends ActionBarActivity implements
     protected Toolbar mActionBarToolbar;
     protected DrawerLayout mDrawerLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    private LinearLayout mAdViewContainer;
+    private AdView mAdView;
 
 
     @Override
@@ -31,6 +40,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
         super.onPostCreate(savedInstanceState);
 
         trySetupSwipeRefresh();
+        trySetupAdView();
     }
 
     @Override
@@ -38,6 +48,30 @@ public abstract class BaseActivity extends ActionBarActivity implements
         super.setContentView(layoutResID);
         getActionBarToolbar();
         setupActionBar();
+    }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
     protected Toolbar getActionBarToolbar() {
@@ -77,6 +111,25 @@ public abstract class BaseActivity extends ActionBarActivity implements
                 MultiSwipeRefreshLayout mswrl = (MultiSwipeRefreshLayout) mSwipeRefreshLayout;
                 mswrl.setCanChildScrollUpCallback(this);
             }
+        }
+    }
+
+    protected void trySetupAdView(){
+
+        mAdViewContainer = (LinearLayout) findViewById(R.id.admob_container);
+
+        if(mAdViewContainer != null){
+            mAdView = new AdView(this);
+            mAdView.setAdUnitId(BuildConfig.AD_UNIT_ID);
+            mAdView.setAdSize(AdSize.BANNER);
+            mAdViewContainer.addView(mAdView);
+
+            AdRequest.Builder builder = new AdRequest.Builder();
+            if(BuildConfig.DEBUG){
+                builder.addTestDevice(BuildConfig.AD_TEST_DEVICE_ID);
+            }
+            AdRequest adRequest = builder.build();
+            mAdView.loadAd(adRequest);
         }
     }
 
