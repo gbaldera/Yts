@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--Notifications-->
-    <!--<PreferenceCategory
+    <PreferenceCategory
         android:title="@string/pref_notifications_title"
         android:key="pref_key_notifications_settings">
         <CheckBoxPreference
@@ -10,7 +10,7 @@
             android:summary="@string/pref_summary_enable_notifications"
             android:title="@string/pref_title_enable_notifications"
             android:defaultValue="true" />
-    </PreferenceCategory>-->
+    </PreferenceCategory>
 
     <!--About-->
     <PreferenceCategory
