@@ -17,6 +17,7 @@ import com.gbaldera.yts.fragments.LatestMoviesFragment;
 import com.gbaldera.yts.fragments.PopularMoviesFragment;
 import com.gbaldera.yts.fragments.UpcomingMoviesFragment;
 import com.gbaldera.yts.widgets.SlidingTabLayout;
+import com.rampo.updatechecker.UpdateChecker;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -77,6 +78,14 @@ public class MainActivity extends BaseDrawerActivity implements
                 }
             });
         }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        UpdateChecker updateChecker = new UpdateChecker(this);
+        updateChecker.start();
     }
 
 

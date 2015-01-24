@@ -40,11 +40,9 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             if (variant.buildType.name != "debug") {
-                def date = new Date();
-                def formattedDate = date.format('yyyyMMddHHmmss')
                 output.outputFile = new File(
                         output.outputFile.parent,
-                        "${variant.applicationId}-v${variant.versionName}-${formattedDate}.apk"
+                        "${variant.applicationId}-v${variant.versionName}.apk"
                 )
             }
         }
@@ -82,6 +80,7 @@ android {
 
 dependencies {
     compile project(':libraries:androidutils')
+    compile project(':libraries:updatechecker')
 
     compile files('libs/underscore.jar')
     compile files('libs/Parse-1.8.0.jar')
