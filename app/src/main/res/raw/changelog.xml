@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
+    <changelogversion versionName="1.0.3" changeDate="Jan 24,2015">
+        <changelogtext>[b]New![/b] Disable notifications from settings.</changelogtext>
+        <changelogtext>[b]New![/b] App update checker.</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="1.0.1" changeDate="Jan 17,2015">
         <changelogtext>Initial release.</changelogtext>
     </changelogversion>
