@@ -18,6 +18,7 @@ package com.rampo.updatechecker;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.rampo.updatechecker.notice.Dialog;
 import com.rampo.updatechecker.notice.Notice;
@@ -53,6 +54,7 @@ public class UpdateChecker implements ASyncCheckResult, UpdateCheckerResult {
     static UpdateCheckerResult mLibraryResultCallaback;
     static ASyncCheckResult mCheckResultCallback;
     static boolean mCustomImplementation;
+    static boolean mIgnoreSuccessfulChecks;
 
     public UpdateChecker(Activity activity) {
         mActivity = activity;
@@ -63,6 +65,7 @@ public class UpdateChecker implements ASyncCheckResult, UpdateCheckerResult {
         mCheckResultCallback = this;
         mLibraryResultCallaback = this;
         mCustomImplementation = false;
+        mIgnoreSuccessfulChecks = false;
     }
 
     public UpdateChecker(Activity activity, UpdateCheckerResult updateCheckerResult) {
@@ -74,6 +77,7 @@ public class UpdateChecker implements ASyncCheckResult, UpdateCheckerResult {
         mCheckResultCallback = this;
         mLibraryResultCallaback = updateCheckerResult;
         mCustomImplementation = true;
+        mIgnoreSuccessfulChecks = false;
     }
 
     /**
@@ -95,6 +99,10 @@ public class UpdateChecker implements ASyncCheckResult, UpdateCheckerResult {
      */
     public static void setSuccessfulChecksRequired(int checksRequired) {
         mSuccessfulChecksRequired = checksRequired;
+    }
+
+    public static void setIgnoreSuccessfulChecks(boolean ignoreSuccessfulChecks) {
+        mIgnoreSuccessfulChecks = ignoreSuccessfulChecks;
     }
 
     /**
@@ -262,6 +270,10 @@ public class UpdateChecker implements ASyncCheckResult, UpdateCheckerResult {
      * Show the Notice only if it's the first time or the number of the checks made is a multiple of the argument of setSuccessfulChecksRequired(int) method. (If you don't call setSuccessfulChecksRequired(int) the default is 5).
      */
     private boolean hasToShowNotice(String versionDownloadable) {
+
+        if(mIgnoreSuccessfulChecks)
+            return true;
+
         SharedPreferences prefs = mActivity.getSharedPreferences(PREFS_FILENAME, 0);
         String prefKey = SUCCESSFUL_CHEKS_PREF_KEY + versionDownloadable;
         int mChecksMade = prefs.getInt(prefKey, 0);
@@ -290,7 +302,7 @@ public class UpdateChecker implements ASyncCheckResult, UpdateCheckerResult {
      * Show Dialog
      */
     public void showDialog(String versionDownloadable) {
-        Dialog.show(mActivity, mStore, versionDownloadable, mNoticeIconResId);
+        Dialog.show(mActivity, mStore, versionDownloadable, mNoticeIconResId, mIgnoreSuccessfulChecks);
     }
 
     /**

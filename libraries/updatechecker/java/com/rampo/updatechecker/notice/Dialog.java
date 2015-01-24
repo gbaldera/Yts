@@ -37,7 +37,7 @@ import com.rampo.updatechecker.store.Store;
  */
 public class Dialog {
 
-    public static void show(final Context context, final Store store, final String versionDownloadable, final int dialogIconResId) {
+    public static void show(final Context context, final Store store, final String versionDownloadable, final int dialogIconResId, final boolean ignoreNotShowNoticeAgain) {
         try {
             String storeName = null;
             if (store == Store.GOOGLE_PLAY) {
@@ -70,7 +70,8 @@ public class Dialog {
                     .setNegativeButton(context.getString(R.string.dialogNegativeButton), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            userHasTappedToNotShowNoticeAgain(context, versionDownloadable);
+                            if(!ignoreNotShowNoticeAgain)
+                                userHasTappedToNotShowNoticeAgain(context, versionDownloadable);
                             dialog.cancel();
                         }
 

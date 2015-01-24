@@ -32,6 +32,12 @@
             android:key="pref_key_app_website"
             android:title="@string/pref_title_app_website"/>
         <Preference
+            android:key="pref_key_check_for_update"
+            android:title="@string/pref_title_check_for_update"/>
+        <Preference
+            android:key="pref_key_changelog"
+            android:title="@string/pref_title_changelog"/>
+        <Preference
             android:key="pref_key_version"
             android:summary="@string/pref_summary_version"
             android:title="@string/pref_title_version" />
