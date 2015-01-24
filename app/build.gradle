@@ -27,8 +27,8 @@ android {
         applicationId "com.gbaldera.yts"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 2
-        versionName "1.0.1"
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
 
         buildConfigField("String", "TRAKT_API_KEY", "\"${loadStringPropertyOrPlaceholder("TRAKT_API_KEY")}\"")
         buildConfigField("String", "PARSE_APP_ID", "\"${loadStringPropertyOrPlaceholder("PARSE_APP_ID")}\"")
@@ -40,11 +40,9 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             if (variant.buildType.name != "debug") {
-                def date = new Date();
-                def formattedDate = date.format('yyyyMMddHHmmss')
                 output.outputFile = new File(
                         output.outputFile.parent,
-                        "${variant.applicationId}-v${variant.versionName}-${formattedDate}.apk"
+                        "${variant.applicationId}-v${variant.versionName}.apk"
                 )
             }
         }
@@ -82,6 +80,7 @@ android {
 
 dependencies {
     compile project(':libraries:androidutils')
+    compile project(':libraries:updatechecker')
 
     compile files('libs/underscore.jar')
     compile files('libs/Parse-1.8.0.jar')
@@ -102,6 +101,8 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.7.1'
     compile 'com.squareup.okhttp:okhttp:2.1.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0'
+
+    compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'
 
     compile 'com.uwetrottmann:trakt-java:3.3.1'
     compile('com.crashlytics.sdk.android:crashlytics:2.2.0@aar') {

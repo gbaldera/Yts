@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="downloadFor">Compruébelo usted mismo, hay una nueva actualización de %1$s!\nDisponible ahora en %2$s.</string>
+    <string name="dialogPositiveButton">Descargar</string>
+    <string name="dialogNeutralButton">Más tarde</string>
+    <string name="dialogNegativeButton">No gracias</string>
+    <string name="newUpdateAvailable">Se encontró una nueva actualización</string>
+    <string name="no_update_found">No se encontró nueva actualización</string>
+    <string name="network_error">Error al intentar encontrar nuevas actualizaciones&#8230;</string>
+</resources>
