@@ -12,21 +12,18 @@ import android.widget.TextView;
 
 import com.gbaldera.yts.R;
 import com.gbaldera.yts.helpers.TextHelper;
-import com.gbaldera.yts.helpers.TraktHelper;
-import com.jakewharton.trakt.entities.Movie;
+import com.gbaldera.yts.models.YtsMovie;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class SearchMoviesAdapter extends ArrayAdapter<Movie> {
+public class SearchMoviesAdapter extends ArrayAdapter<YtsMovie> {
 
     private LayoutInflater mInflater;
     private static int LAYOUT = R.layout.item_search_movie;
-    private DateFormat dateFormatMovieReleaseDate = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
 
     public SearchMoviesAdapter(Context context){
@@ -47,20 +44,14 @@ public class SearchMoviesAdapter extends ArrayAdapter<Movie> {
         }
 
         // Bind the data efficiently with the holder.
-        Movie movie = getItem(position);
+        YtsMovie movie = getItem(position);
 
         holder.title.setText(movie.title);
-
-        if (movie.released != null) {
-            holder.date.setText(dateFormatMovieReleaseDate.format(movie.released));
-        } else {
-            holder.date.setText("");
-        }
+        holder.date.setText(String.valueOf(movie.year));
 
         holder.runtime.setText(TextHelper.getPrettyRuntime(getContext(), movie.runtime));
 
-        String poster = TraktHelper.resizeImage(movie, TraktHelper.TraktImageType.POSTER,
-                TraktHelper.TraktImageSize.THUMB);
+        String poster = movie.medium_cover_image;
 
         if (!TextUtils.isEmpty(poster)) {
             Picasso.with(getContext())
@@ -74,10 +65,10 @@ public class SearchMoviesAdapter extends ArrayAdapter<Movie> {
         return convertView;
     }
 
-    public void setData(List<Movie> data) {
+    public void setData(List<YtsMovie> data) {
         clear();
         if (data != null) {
-            for (Movie item : data) {
+            for (YtsMovie item : data) {
                 if (item != null) {
                     add(item);
                 }

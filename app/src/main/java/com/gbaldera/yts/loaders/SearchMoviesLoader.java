@@ -21,7 +21,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class SearchMoviesLoader extends GenericSimpleLoader<List<Movie>> {
+public class SearchMoviesLoader extends GenericSimpleLoader<List<YtsMovie>> {
 
     private String mQuery = "";
 
@@ -31,32 +31,22 @@ public class SearchMoviesLoader extends GenericSimpleLoader<List<Movie>> {
     }
 
     @Override
-    public List<Movie> loadInBackground() {
+    public List<YtsMovie> loadInBackground() {
         if(!TextUtils.isEmpty(mQuery)){
             try{
                 YtsMovieList ytsMovieList = ServicesHelper.getYtsService(getContext()).
-                        list(50, 1, YtsMovieQuality.ALL, 0, mQuery, YtsMovieGenre.ALL,
-                                YtsMovieSort.DATE, YtsMovieOrder.DESC);
+                        list_movies(50, 1, YtsMovieQuality.ALL, 0, mQuery, YtsMovieGenre.ALL,
+                                YtsMovieSort.DATE, YtsMovieOrder.DESC, false);
 
                 Timber.d("Searching Yts for: " + mQuery);
 
-                if(ytsMovieList.MovieCount == 0){
+                if(ytsMovieList.data.movie_count == 0){
                     return null;
                 }
 
-                Timber.d("Total results: " + ytsMovieList.MovieCount);
+                Timber.d("Total results: " + ytsMovieList.data.movie_count);
 
-                List<Object> imbIdObjects = _.uniq(_.pluck(ytsMovieList.MovieList, "ImdbCode"));
-                List<String> imbIds = new ArrayList<String>();
-
-                for(Object object : imbIdObjects){
-                    if (object == null)
-                        continue;
-                    imbIds.add(object.toString());
-                }
-
-                return ServicesHelper.getTrakt(getContext())
-                        .movieService().summaries(_.join(imbIds, ","), Extended2.FULL);
+                return ytsMovieList.data.movies;
             }
             catch (Exception e){
                 Timber.e(e, "Searching movie list failed");

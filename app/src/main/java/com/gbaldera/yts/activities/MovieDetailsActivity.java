@@ -25,21 +25,16 @@ import com.gbaldera.yts.PaletteTransformation;
 import com.gbaldera.yts.R;
 import com.gbaldera.yts.helpers.ColorHelper;
 import com.gbaldera.yts.helpers.TextHelper;
-import com.gbaldera.yts.helpers.TraktHelper;
 import com.gbaldera.yts.loaders.MovieDetailsLoader;
-import com.gbaldera.yts.loaders.MovieDetailsYtsLoader;
 import com.gbaldera.yts.models.YtsMovie;
-import com.gbaldera.yts.models.YtsMovieDetailsSummary;
+import com.gbaldera.yts.models.YtsTorrent;
 import com.gbaldera.yts.views.ObservableScrollView;
-
-import com.jakewharton.trakt.entities.Movie;
+import com.github.underscore._;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.androidutils.AndroidUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -48,18 +43,18 @@ import butterknife.InjectView;
 public class MovieDetailsActivity extends BaseActivity implements
         ObservableScrollView.OnScrollChangedCallback {
 
-    public static final int MOVIE_TRAKT_LOADER_ID = 100;
-    public static final int MOVIE_YTS_LOADER_ID = 101;
+    public static final int MOVIE_DETAILS_LOADER_ID = 100;
     public static final int MOVIE_ACTORS_LOADER_ID = 103;
     public static final int RELATED_MOVIES_LOADER_ID = 104;
 
     public static final String IMDB_ID = "imdbId";
     public static final String YTS_ID = "ytsId";
     private String imdbId;
+    private int ytsId;
 
-    private Movie mMovie;
-    private List<Movie> mRelatedMovies;
-    private YtsMovieDetailsSummary movieSummary;
+    private YtsMovie mMovie;
+    private List<YtsMovie> mRelatedMovies;
+    private ArrayList<String> movieAvailableQualities = new ArrayList<>();
 
     private int mActionBarBackgroundColor;
     private int mStatusBarColor;
@@ -96,8 +91,8 @@ public class MovieDetailsActivity extends BaseActivity implements
             }
         });
 
-        imdbId = getIntent().getExtras().getString(IMDB_ID);
-        if (TextUtils.isEmpty(imdbId)){
+        ytsId = getIntent().getExtras().getInt(YTS_ID);
+        if (ytsId == 0){
             finish();
             return;
         }
@@ -114,9 +109,8 @@ public class MovieDetailsActivity extends BaseActivity implements
 
         // init loaders
         Bundle args = new Bundle();
-        args.putString(IMDB_ID, imdbId);
-        getLoaderManager().initLoader(MOVIE_YTS_LOADER_ID, args, mMovieYtsLoaderCallbacks);
-        getLoaderManager().initLoader(MOVIE_TRAKT_LOADER_ID, args, mMovieTraktLoaderCallbacks);
+        args.putInt(YTS_ID, ytsId);
+        getLoaderManager().initLoader(MOVIE_DETAILS_LOADER_ID, args, mMovieDetailsLoaderCallbacks);
 
         onScroll(-1, 0);
     }
@@ -126,10 +120,9 @@ public class MovieDetailsActivity extends BaseActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_movie_details, menu);
 
-        boolean haveTrailer = (mMovie != null && !TextUtils.isEmpty(mMovie.trailer))
-                || movieSummary != null && !TextUtils.isEmpty(movieSummary.YoutubeTrailerUrl);
-        boolean haveTorrent = movieSummary != null && !TextUtils.isEmpty(movieSummary.YoutubeTrailerUrl);
-        boolean haveShare = movieSummary != null && mMovie != null;
+        boolean haveTrailer = mMovie != null && !TextUtils.isEmpty(mMovie.yt_trailer_code);
+        boolean haveTorrent = mMovie != null && mMovie.torrents.size() > 0;
+        boolean haveShare = mMovie != null && !TextUtils.isEmpty(mMovie.url);
 
         menu.findItem(R.id.action_trailer).setVisible(haveTrailer);
         menu.findItem(R.id.action_torrent).setVisible(haveTorrent);
@@ -147,49 +140,44 @@ public class MovieDetailsActivity extends BaseActivity implements
                 onBackPressed();
                 return true;
             case R.id.action_trailer:
-                String trailer = "";
-
-                if(mMovie != null && !TextUtils.isEmpty(mMovie.trailer)){
-                    trailer = mMovie.trailer;
+                if(mMovie != null && !TextUtils.isEmpty(mMovie.yt_trailer_code)){
+                    String trailer = "https://www.youtube.com/watch?v=" + mMovie.yt_trailer_code;
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailer));
+                    startActivity(intent);
                 }
-                else if(movieSummary != null && !TextUtils.isEmpty(movieSummary.YoutubeTrailerUrl)){
-                    trailer = movieSummary.YoutubeTrailerUrl;
-                }
-
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailer));
-                startActivity(intent);
                 return true;
             case R.id.action_torrent:
                 showTorrentDialogChooser();
                 return true;
             case R.id.action_share:
-                try {
-                    String encondedTitle = URLEncoder.encode(mMovie.title, "utf-8");
+                if(mMovie != null && !TextUtils.isEmpty(mMovie.url)){
                     intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, movieSummary.MovieTitle +
-                            " - " + "https://yts.re/browse-movie/" + encondedTitle + "/All/All/0/latest");
-                    startActivity(intent);
-                }catch (UnsupportedEncodingException e){}
-                return true;
-            case R.id.action_yts:
-                try{
-                    String encondedTitle = URLEncoder.encode(mMovie.title, "utf-8");
-                    intent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://yts.re/browse-movie/" + encondedTitle + "/All/All/0/latest"));
+                    intent.putExtra(Intent.EXTRA_TEXT, mMovie.title_long +
+                            " - " + mMovie.url);
                     startActivity(intent);
                 }
-                catch (UnsupportedEncodingException e){}
+                return true;
+            case R.id.action_yts:
+                if(mMovie != null && !TextUtils.isEmpty(mMovie.url)){
+                    intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(mMovie.url));
+                    startActivity(intent);
+                }
                 return true;
             case R.id.action_imdb:
-                intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://www.imdb.com/title/" + imdbId + "/"));
-                startActivity(intent);
+                if(mMovie != null){
+                    intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://www.imdb.com/title/" + mMovie.imdb_code + "/"));
+                    startActivity(intent);
+                }
                 return true;
             case R.id.action_subtitles:
-                intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://www.yifysubtitles.com/movie-imdb/" + imdbId));
-                startActivity(intent);
+                if(mMovie != null){
+                    intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.yifysubtitles.com/movie-imdb/" + mMovie.imdb_code));
+                    startActivity(intent);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -223,15 +211,15 @@ public class MovieDetailsActivity extends BaseActivity implements
     }
 
     private void showTorrentDialogChooser(){
-        if(movieSummary != null){
+        if(mMovie != null && movieAvailableQualities.size() > 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.dialog_torrent).setItems(movieSummary.MovieAvailableQualities
-                            .toArray(new CharSequence[movieSummary.MovieAvailableQualities.size()]),
+            builder.setTitle(R.string.dialog_torrent).setItems(movieAvailableQualities
+                            .toArray(new CharSequence[movieAvailableQualities.size()]),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            YtsMovie ytsMovie = movieSummary.MovieList.get(which);
+                            YtsTorrent torrent = mMovie.torrents.get(which);
                             Intent torrentIntent = new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse(ytsMovie.TorrentUrl));
+                                    Uri.parse(torrent.url));
                             startActivity(torrentIntent);
                         }
                     });
@@ -240,43 +228,38 @@ public class MovieDetailsActivity extends BaseActivity implements
         }
     }
 
-    private void populateMovieGenre(){
-        if (movieSummary != null && !TextUtils.isEmpty(movieSummary.Genre1))
-            mGenre.setText(movieSummary.Genre1 + (!TextUtils.isEmpty(movieSummary.Genre2) ? ", " + movieSummary.Genre2 : ""));
-        else
-            mGenre.setVisibility(View.GONE);
-    }
-
     private void populateMovieViews() {
         mTitle.setText(mMovie.title);
         //mTitle.setTypeface(mCondensedRegular);
 
-        mPlot.setText(mMovie.overview);
+        mPlot.setText(mMovie.description_full);
 
-        if (mMovie.tagline.isEmpty())
-            mTagline.setVisibility(TextView.GONE);
-        else
-            mTagline.setText(mMovie.tagline);
+        mTagline.setVisibility(TextView.GONE);
 
         mRuntime.setText(TextHelper.getPrettyRuntime(this, mMovie.runtime));
-        mReleaseDate.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(mMovie.released));
+        mReleaseDate.setText(String.valueOf(mMovie.year));
 
-        if(mMovie.ratings.percentage == 0)
-            mRating.setText(R.string.stringNA);
+        if (mMovie.genres.size() > 0)
+            mGenre.setText(TextUtils.join(", ", mMovie.genres));
         else
-            mRating.setText(mMovie.ratings.percentage.toString() + "%");
+            mGenre.setVisibility(View.GONE);
 
-        if (!TextUtils.isEmpty(mMovie.certification)) {
-            mCertification.setText(mMovie.certification);
+        if(mMovie.rating == 0)
+            mRating.setText(R.string.stringNA);
+        else{
+            mRating.setText(mMovie.rating.toString());
+        }
+
+        if (!TextUtils.isEmpty(mMovie.mpa_rating)) {
+            mCertification.setText(mMovie.mpa_rating);
         } else {
             mCertification.setText(R.string.stringNA);
         }
 
         // load images
-        String poster = TraktHelper.resizeImage(mMovie, TraktHelper.TraktImageType.POSTER,
-                TraktHelper.TraktImageSize.THUMB);
-        String fan_art = TraktHelper.resizeImage(mMovie, TraktHelper.TraktImageType.FANART,
-                TraktHelper.TraktImageSize.THUMB);
+        String poster = mMovie.images.medium_cover_image;
+        String fan_art = mMovie.images.background_image;
+
         Picasso.with(this)
                 .load(poster)
                 .transform(PaletteTransformation.instance())
@@ -318,20 +301,29 @@ public class MovieDetailsActivity extends BaseActivity implements
 
     }
 
-    private LoaderManager.LoaderCallbacks<Movie> mMovieTraktLoaderCallbacks
-            = new LoaderManager.LoaderCallbacks<Movie>() {
+    private LoaderManager.LoaderCallbacks<YtsMovie> mMovieDetailsLoaderCallbacks
+            = new LoaderManager.LoaderCallbacks<YtsMovie>() {
         @Override
-        public Loader<Movie> onCreateLoader(int loaderId, Bundle args) {
-            return new MovieDetailsLoader(mActivity, args.getString(IMDB_ID));
+        public Loader<YtsMovie> onCreateLoader(int loaderId, Bundle args) {
+            return new MovieDetailsLoader(mActivity, args.getInt(YTS_ID));
         }
 
         @Override
-        public void onLoadFinished(Loader<Movie> movieLoader, Movie movie) {
+        public void onLoadFinished(Loader<YtsMovie> movieLoader, YtsMovie movie) {
             mMovie = movie;
             mScrollView.setVisibility(View.VISIBLE);
             mProgressBar.setVisibility(View.GONE);
 
             if (movie != null) {
+                try {
+                    List<Object> qualities = _.pluck(movie.torrents, "quality");
+                    for(Object object : qualities){
+                        if (object == null)
+                            continue;
+                        movieAvailableQualities.add(object.toString());
+                    }
+                } catch (NoSuchFieldException e) {
+                }
                 populateMovieViews();
                 invalidateOptionsMenu();
             } else {
@@ -344,28 +336,8 @@ public class MovieDetailsActivity extends BaseActivity implements
         }
 
         @Override
-        public void onLoaderReset(Loader<Movie> movieLoader) {
+        public void onLoaderReset(Loader<YtsMovie> movieLoader) {
             // nothing to do
-        }
-    };
-
-    private LoaderManager.LoaderCallbacks<YtsMovieDetailsSummary> mMovieYtsLoaderCallbacks
-            = new LoaderManager.LoaderCallbacks<YtsMovieDetailsSummary>() {
-        @Override
-        public Loader<YtsMovieDetailsSummary> onCreateLoader(int id, Bundle args) {
-            return new MovieDetailsYtsLoader(mActivity, args.getString(IMDB_ID));
-        }
-
-        @Override
-        public void onLoadFinished(Loader<YtsMovieDetailsSummary> loader,
-                                   YtsMovieDetailsSummary data) {
-            movieSummary = data;
-            populateMovieGenre();
-            invalidateOptionsMenu();
-        }
-
-        @Override
-        public void onLoaderReset(Loader<YtsMovieDetailsSummary> loader) {
         }
     };
 }

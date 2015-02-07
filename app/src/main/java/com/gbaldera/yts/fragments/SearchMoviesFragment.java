@@ -18,7 +18,7 @@ import com.gbaldera.yts.R;
 import com.gbaldera.yts.activities.MovieDetailsActivity;
 import com.gbaldera.yts.adapters.SearchMoviesAdapter;
 import com.gbaldera.yts.loaders.SearchMoviesLoader;
-import com.jakewharton.trakt.entities.Movie;
+import com.gbaldera.yts.models.YtsMovie;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class SearchMoviesFragment extends Fragment implements AdapterView.OnItemClickListener,
-        LoaderManager.LoaderCallbacks<List<Movie>> {
+        LoaderManager.LoaderCallbacks<List<YtsMovie>> {
 
     private static final int SEARCH_MOVIES_LOADER_ID = 100;
     public static final String SEARCH_QUERY = "query";
@@ -118,29 +118,29 @@ public class SearchMoviesFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Movie movie = mMoviesAdapter.getItem(position);
-        String imdbId = movie.imdb_id;
+        YtsMovie movie = mMoviesAdapter.getItem(position);
+        int movieId = movie.id;
 
         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-        intent.putExtra(MovieDetailsActivity.IMDB_ID, imdbId);
+        intent.putExtra(MovieDetailsActivity.YTS_ID, movieId);
 
         getActivity().startActivity(intent);
     }
 
     @Override
-    public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
+    public Loader<List<YtsMovie>> onCreateLoader(int id, Bundle args) {
         setProgressVisible(true);
         return new SearchMoviesLoader(getActivity(), args.getString(SEARCH_QUERY));
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
+    public void onLoadFinished(Loader<List<YtsMovie>> loader, List<YtsMovie> data) {
         mMoviesAdapter.setData(data);
         setProgressVisible(false);
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Movie>> loader) {
+    public void onLoaderReset(Loader<List<YtsMovie>> loader) {
         mMoviesAdapter.setData(null);
     }
 

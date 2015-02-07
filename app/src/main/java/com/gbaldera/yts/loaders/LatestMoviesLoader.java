@@ -10,29 +10,31 @@ import com.gbaldera.yts.enumerations.YtsMovieSort;
 import com.gbaldera.yts.helpers.ServicesHelper;
 import com.gbaldera.yts.models.YtsMovie;
 import com.gbaldera.yts.models.YtsMovieList;
-import com.github.underscore._;
-import com.jakewharton.trakt.entities.Movie;
-import com.jakewharton.trakt.enumerations.Extended2;
+import com.uwetrottmann.androidutils.GenericSimpleLoader;
 
 import java.util.List;
 
-public class LatestMoviesLoader extends BaseMoviesLoader<List<Movie>> {
+import timber.log.Timber;
+
+public class LatestMoviesLoader extends GenericSimpleLoader<List<YtsMovie>> {
 
     public LatestMoviesLoader(Context context) {
         super(context);
     }
 
     @Override
-    protected List<Movie> getMoviesFromTrakt(List<String> imbIds) {
-        return ServicesHelper.getTrakt(getContext())
-                .movieService().summaries(_.join(imbIds, ","), Extended2.FULL);
-    }
+    public List<YtsMovie> loadInBackground() {
+        try{
+            YtsMovieList movieList = ServicesHelper.getYtsService(getContext()).
+                    list_movies(30, 1, YtsMovieQuality.ALL, 0, null, YtsMovieGenre.ALL,
+                            YtsMovieSort.DATE, YtsMovieOrder.DESC, false);
+            return movieList.data.movies;
+        }
+        catch (Exception e){
+            Timber.e(e, "Downloading movies failed");
+        }
 
-    @Override
-    protected List<YtsMovie> getMoviesFromYts() {
-        YtsMovieList ytsMovieList = ServicesHelper.getYtsService(getContext()).
-                list(30, 1, YtsMovieQuality.ALL, 0, null, YtsMovieGenre.ALL,
-                        YtsMovieSort.DATE, YtsMovieOrder.DESC);
-        return ytsMovieList.MovieList;
+        return null;
     }
 }
+

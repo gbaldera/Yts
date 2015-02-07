@@ -3,13 +3,13 @@ package com.gbaldera.yts.enumerations;
 
 public enum YtsMovieSort {
 
-    DATE("date"),
+    TITLE("title"),
+    DATE("date_added"),
     SEEDS("seeds"),
     PEERS("peers"),
-    SIZE("size"),
-    ALPHABET("alphabet"),
     RATING("rating"),
-    DOWNLOADED("downloaded"),
+    DOWNLOADED("downloaded_count"),
+    LIKE("like_count"),
     YEAR("year");
 
     private final String value;

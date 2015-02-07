@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.gbaldera.yts.R;
 import com.gbaldera.yts.activities.MovieDetailsActivity;
 import com.gbaldera.yts.adapters.MoviesAdapter;
-import com.jakewharton.trakt.entities.Movie;
+import com.gbaldera.yts.models.YtsMovie;
 import com.uwetrottmann.androidutils.AndroidUtils;
 
 import java.util.List;
@@ -27,7 +27,7 @@ import butterknife.InjectView;
 
 
 public abstract class BaseMovieFragment extends Fragment implements AdapterView.OnItemClickListener,
-        LoaderManager.LoaderCallbacks<List<Movie>> {
+        LoaderManager.LoaderCallbacks<List<YtsMovie>> {
 
     protected static final int LAYOUT = R.layout.fragment_movies;
     @InjectView(R.id.movies_container) View mMoviesContainer;
@@ -96,13 +96,13 @@ public abstract class BaseMovieFragment extends Fragment implements AdapterView.
     }
 
     @Override
-    public Loader<List<Movie>> onCreateLoader(int loaderId, Bundle args) {
+    public Loader<List<YtsMovie>> onCreateLoader(int loaderId, Bundle args) {
         setProgressVisible(true, false);
         return getLoader();
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
+    public void onLoadFinished(Loader<List<YtsMovie>> loader, List<YtsMovie> data) {
         if (AndroidUtils.isNetworkConnected(getActivity())) {
             mEmptyView.setText(R.string.movies_empty);
         } else {
@@ -113,17 +113,17 @@ public abstract class BaseMovieFragment extends Fragment implements AdapterView.
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Movie>> loader) {
+    public void onLoaderReset(Loader<List<YtsMovie>> loader) {
         mMoviesAdapter.setData(null);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Movie movie = mMoviesAdapter.getItem(position);
-        String imdbId = movie.imdb_id;
+        YtsMovie movie = mMoviesAdapter.getItem(position);
+        int movieId = movie.id;
 
         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-        intent.putExtra(MovieDetailsActivity.IMDB_ID, imdbId);
+        intent.putExtra(MovieDetailsActivity.YTS_ID, movieId);
 
         getActivity().startActivity(intent);
     }
@@ -142,7 +142,7 @@ public abstract class BaseMovieFragment extends Fragment implements AdapterView.
     }
 
     protected abstract int getLoaderId();
-    protected abstract Loader<List<Movie>> getLoader();
+    protected abstract Loader<List<YtsMovie>> getLoader();
 
     /**
      * This interface must be implemented by activities that contain this

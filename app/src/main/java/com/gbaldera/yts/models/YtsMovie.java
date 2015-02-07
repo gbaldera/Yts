@@ -1,42 +1,27 @@
 package com.gbaldera.yts.models;
 
 
-public class YtsMovie {
-    public int MovieID;
-    public String State;
-    public String MovieUrl;
-    public String MovieTitle;
-    public String MovieTitleClean;
-    public int MovieYear;
-    public String DateUploaded;
-    public int DateUploadedEpoch;
-    public String Quality;
-    public String CoverImage;
-    public String ImdbCode;
-    public String ImdbLink;
-    public String Size;
-    public String SizeByte;
-    public String MovieRating;
-    public String Genre;
-    public String Uploader;
-    public String UploaderUID;
-    public String Downloaded;
-    public String TorrentSeeds;
-    public String TorrentPeers;
-    public String TorrentUrl;
-    public String TorrentHash;
-    public String TorrentMagnetUrl;
+import java.util.List;
 
-    public YtsMovie(){}
+public class YtsMovie extends YtsBaseMovie {
+    public Double rating;
+    public int runtime;
+    public List<String> genres;
+    public String language;
+    public String mpa_rating;
+    public String state;
+    public int download_count;
+    public int like_count;
+    public int rt_critics_score;
+    public int rt_audience_score;
+    public String rt_critics_rating;
+    public String rt_audience_rating;
+    public String description_intro;
+    public String description_full;
+    public String yt_trailer_code;
 
-    public YtsMovie(YtsUpcomingMovie upcomingMovie){
-        MovieTitle = upcomingMovie.MovieTitle;
-        DateUploaded = upcomingMovie.DateAdded;
-        DateUploadedEpoch = upcomingMovie.DateAddedEpoch;
-        CoverImage = upcomingMovie.MovieCover;
-        ImdbCode = upcomingMovie.ImdbCode;
-        ImdbLink = upcomingMovie.ImdbLink;
-        Uploader = upcomingMovie.Uploader;
-        UploaderUID = upcomingMovie.UploaderUID;
-    }
+    public List<YtsTorrent> torrents;
+    public List<YtsMovieCast> directors;
+    public List<YtsMovieCast> actors;
+    public YtsMovieImages images;
 }
