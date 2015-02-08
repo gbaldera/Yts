@@ -17,6 +17,7 @@
 # http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:decoupled_projects
 # org.gradle.parallel=true
 
+YTS_APP_KEY = your_yts_app_key
 TRAKT_API_KEY = your_trakt_api_key
 PARSE_APP_ID = your_parse_app_id
 PARSE_CLIENT_KEY = your_parse_client_key

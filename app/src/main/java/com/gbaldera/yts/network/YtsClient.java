@@ -3,18 +3,24 @@ package com.gbaldera.yts.network;
 
 import android.content.Context;
 
+import com.gbaldera.yts.enumerations.YtsMovieGenre;
 import com.gbaldera.yts.enumerations.YtsMovieOrder;
 import com.gbaldera.yts.enumerations.YtsMovieQuality;
-import com.gbaldera.yts.enumerations.YtsMovieGenre;
 import com.gbaldera.yts.enumerations.YtsMovieSort;
 import com.gbaldera.yts.helpers.ServicesHelper;
+import com.gbaldera.yts.models.YtsLoginResult;
+import com.gbaldera.yts.models.YtsMovieComments;
 import com.gbaldera.yts.models.YtsMovieDetails;
 import com.gbaldera.yts.models.YtsMovieList;
 import com.gbaldera.yts.models.YtsMovieListUpcoming;
+import com.gbaldera.yts.models.YtsMovieSuggestions;
+import com.gbaldera.yts.models.YtsProfile;
 
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
+import retrofit.http.Field;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 public class YtsClient {
@@ -33,13 +39,32 @@ public class YtsClient {
                           @Query("sort_by") YtsMovieSort sort, @Query("order_by") YtsMovieOrder order,
                           @Query("with_rt_ratings") boolean with_rt_ratings);
 
-        @GET("/listimdb.json")
-        YtsMovieList listimdb(@Query("imdb_id") String imdb_id);
-
         @GET("/movie_details.json")
         YtsMovieDetails movie_details(@Query("movie_id") int movie_id,
                                       @Query("with_images") boolean with_images,
-                                      @Query("with_images") boolean with_cast);
+                                      @Query("with_cast") boolean with_cast);
+
+        @GET("/movie_suggestions.json")
+        YtsMovieSuggestions movie_suggestions(@Query("movie_id") int movie_id);
+
+        @GET("/movie_comments.json")
+        YtsMovieComments movie_comments(@Query("movie_id") int movie_id);
+
+        @POST("/make_comment.json")
+        YtsProfile make_comment(@Field("user_key") String user_key, @Field("movie_id") int movie_id,
+                                @Field("comment_text") String comment_text,
+                                @Field("application_key") String application_key);
+
+        @POST("/user_get_key.json")
+        YtsLoginResult login(@Field("username") String username, @Field("password") String password,
+                             @Field("application_key") String application_key);
+
+        @POST("/user_register.json")
+        YtsLoginResult register(@Field("username") String username, @Field("password") String password,
+                             @Field("email") String email, @Field("application_key") String application_key);
+
+        @GET("/user_profile.json")
+        YtsProfile profile(@Query("user_key") String user_key);
     }
 
     public static YtsService create(Context context) {
