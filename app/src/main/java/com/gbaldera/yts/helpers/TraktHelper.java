@@ -66,33 +66,4 @@ public class TraktHelper {
 
         return resizedUrl;
     }
-
-    /**
-     *
-     * Temporary and dumb method to resize v2 trakt images
-     * */
-    public static String resizeImage(com.jakewharton.trakt.entities.Movie movie, TraktImageType type,
-                                     TraktImageSize size){
-        if(movie != null && movie.images != null){
-            String imageUrl;
-            switch (type){
-                case FANART:
-                    imageUrl = movie.images.fanart;
-                    break;
-                case HEADSHOT:
-                    imageUrl = movie.images.headshot;
-                    break;
-                case SCREEN:
-                    imageUrl = movie.images.screen;
-                    break;
-                default:
-                    imageUrl = movie.images.poster;
-                    break;
-            }
-
-            return imageUrl.replace("original", size.toString());
-        }
-
-        return null;
-    }
 }

@@ -6,10 +6,10 @@
     <color name="accent">#14e715</color>
     <color name="transparent">#00000000</color>
 
-    <color name="windowBackgroundColor">#ff222222</color>
+    <color name="windowBackgroundColor">#1d1d1d</color>
     <color name="black_translucent">#80000000</color>
 
-    <color name="tab_background">#ff222222</color>
+    <color name="tab_background">#1d1d1d</color>
     <color name="tab_selected_strip">#14e715</color>
 
     <color name="navdrawer_background">#ff1c1c1c</color>
