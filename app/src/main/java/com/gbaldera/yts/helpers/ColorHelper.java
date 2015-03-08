@@ -1,7 +1,15 @@
 package com.gbaldera.yts.helpers;
 
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
+import android.widget.TextView;
+
+import com.gbaldera.yts.R;
 
 public class ColorHelper {
 
@@ -46,6 +54,24 @@ public class ColorHelper {
 
     public static int modifyAlpha(int color, int alpha) {
         return (color & 0x00ffffff) | (alpha << 24);
+    }
+
+    /**
+     * Taken from https://github.com/saulmm/Material-Movies/blob/master/HackVG%2Fapp%2Fsrc%2Fmain%2Fjava%2Fcom%2Fhackvg%2Fandroid%2Futils%2FGUIUtils.java#L30
+     * **/
+    public static void tintAndSetCompoundDrawable(Context context, @DrawableRes
+    int drawableRes, int color, TextView textview) {
+
+        Resources res = context.getResources();
+        int padding = (int) res.getDimension(R.dimen.activity_horizontal_margin);
+
+        Drawable drawable = res.getDrawable(drawableRes);
+        drawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+
+        textview.setCompoundDrawablesWithIntrinsicBounds(drawable,
+                null, null, null);
+
+        textview.setCompoundDrawablePadding(padding);
     }
 }
 

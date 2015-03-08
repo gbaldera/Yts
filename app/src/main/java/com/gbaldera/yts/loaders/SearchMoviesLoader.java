@@ -11,12 +11,8 @@ import com.gbaldera.yts.enumerations.YtsMovieSort;
 import com.gbaldera.yts.helpers.ServicesHelper;
 import com.gbaldera.yts.models.YtsMovie;
 import com.gbaldera.yts.models.YtsMovieList;
-import com.github.underscore._;
-import com.jakewharton.trakt.entities.Movie;
-import com.jakewharton.trakt.enumerations.Extended2;
 import com.uwetrottmann.androidutils.GenericSimpleLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;

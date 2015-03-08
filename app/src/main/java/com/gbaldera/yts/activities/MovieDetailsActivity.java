@@ -1,19 +1,18 @@
 package com.gbaldera.yts.activities;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,16 +20,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gbaldera.yts.PaletteTransformation;
 import com.gbaldera.yts.R;
-import com.gbaldera.yts.helpers.ColorHelper;
 import com.gbaldera.yts.helpers.TextHelper;
 import com.gbaldera.yts.loaders.MovieDetailsLoader;
 import com.gbaldera.yts.models.YtsMovie;
 import com.gbaldera.yts.models.YtsTorrent;
 import com.gbaldera.yts.views.ObservableScrollView;
 import com.github.underscore._;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.uwetrottmann.androidutils.AndroidUtils;
 
@@ -56,13 +52,8 @@ public class MovieDetailsActivity extends BaseActivity implements
     private List<YtsMovie> mRelatedMovies;
     private ArrayList<String> movieAvailableQualities = new ArrayList<>();
 
-    private int mActionBarBackgroundColor;
-    private int mStatusBarColor;
-    private int mLastDampedScroll;
-
     @InjectView(R.id.movie_fanart) ImageView mFanArt;
     @InjectView(R.id.movie_poster) ImageView mPoster;
-    @InjectView(R.id.details_area) View mDetailsArea;
     @InjectView(R.id.movie_title) TextView mTitle;
     @InjectView(R.id.movie_plot) TextView mPlot;
     @InjectView(R.id.movie_genre) TextView mGenre;
@@ -76,6 +67,7 @@ public class MovieDetailsActivity extends BaseActivity implements
     private Activity mActivity;
     private Handler mHandler = new Handler();
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,8 +89,14 @@ public class MovieDetailsActivity extends BaseActivity implements
             return;
         }
 
-        mActionBarBackgroundColor = getResources().getColor(R.color.color_primary);
-        mStatusBarColor = getResources().getColor(R.color.color_primary_dark);
+        // fanart background transparency
+        if (AndroidUtils.isJellyBeanOrHigher()) {
+            mFanArt.setImageAlpha(30);
+        } else {
+            mFanArt.setAlpha(30);
+        }
+
+        setStatusBarColor(0, getResources().getColor(R.color.windowBackgroundColor));
 
         mScrollView.setOnScrollChangedCallback(this);
         mScrollView.setVisibility(View.GONE);
@@ -111,8 +109,6 @@ public class MovieDetailsActivity extends BaseActivity implements
         Bundle args = new Bundle();
         args.putInt(YTS_ID, ytsId);
         getLoaderManager().initLoader(MOVIE_DETAILS_LOADER_ID, args, mMovieDetailsLoaderCallbacks);
-
-        onScroll(-1, 0);
     }
 
 
@@ -186,28 +182,6 @@ public class MovieDetailsActivity extends BaseActivity implements
 
     @Override
     public void onScroll(int l, int scrollPosition) {
-        int headerHeight = mFanArt.getHeight() - mActionBarToolbar.getHeight();
-        float ratio = 0;
-        if (scrollPosition > 0 && headerHeight > 0)
-            ratio = (float) Math.min(Math.max(scrollPosition, 0), headerHeight) / headerHeight;
-
-        updateActionBarTransparency(ratio);
-        setStatusBarColor(ratio, mStatusBarColor);
-        updateParallaxEffect(scrollPosition);
-    }
-
-    private void updateActionBarTransparency(float scrollRatio) {
-        int newAlpha = (int) (scrollRatio * 255);
-        mActionBarToolbar.setBackgroundColor(ColorHelper.modifyAlpha(mActionBarBackgroundColor, newAlpha));
-    }
-
-    private void updateParallaxEffect(int scrollPosition) {
-        float damping = 0.5f;
-        int dampedScroll = (int) (scrollPosition * damping);
-        int offset = mLastDampedScroll - dampedScroll;
-        mFanArt.offsetTopAndBottom(-offset);
-
-        mLastDampedScroll = dampedScroll;
     }
 
     private void showTorrentDialogChooser(){
@@ -230,13 +204,19 @@ public class MovieDetailsActivity extends BaseActivity implements
 
     private void populateMovieViews() {
         mTitle.setText(mMovie.title);
-        //mTitle.setTypeface(mCondensedRegular);
 
         mPlot.setText(mMovie.description_full);
 
-        mTagline.setVisibility(TextView.GONE);
+        Resources res = getResources();
+        Drawable runtimeDrawable = res.getDrawable(R.drawable.ic_runtime);
+        Drawable certificationDrawable = res.getDrawable(R.drawable.ic_certification);
+        Drawable ratingDrawable = res.getDrawable(R.drawable.ic_rating);
+        int drawablePadding = (int) res.getDimension(R.dimen.activity_horizontal_margin);
 
         mRuntime.setText(TextHelper.getPrettyRuntime(this, mMovie.runtime));
+        mRuntime.setCompoundDrawablesWithIntrinsicBounds(runtimeDrawable, null, null, null);
+        mRuntime.setCompoundDrawablePadding(drawablePadding);
+
         mReleaseDate.setText(String.valueOf(mMovie.year));
 
         if (mMovie.genres.size() > 0)
@@ -250,54 +230,24 @@ public class MovieDetailsActivity extends BaseActivity implements
             mRating.setText(mMovie.rating.toString());
         }
 
+        mRating.setCompoundDrawablesWithIntrinsicBounds(ratingDrawable, null, null, null);
+        mRating.setCompoundDrawablePadding(drawablePadding);
+
         if (!TextUtils.isEmpty(mMovie.mpa_rating)) {
             mCertification.setText(mMovie.mpa_rating);
         } else {
             mCertification.setText(R.string.stringNA);
         }
 
+        mCertification.setCompoundDrawablesWithIntrinsicBounds(certificationDrawable, null, null, null);
+        mCertification.setCompoundDrawablePadding(drawablePadding);
+
         // load images
         String poster = mMovie.images.medium_cover_image;
         String fan_art = mMovie.images.background_image;
 
-        Picasso.with(this)
-                .load(poster)
-                .transform(PaletteTransformation.instance())
-                .into(mPoster, new Callback.EmptyCallback() {
-                    @Override public void onSuccess() {
-                        Bitmap bitmap = ((BitmapDrawable) mPoster.getDrawable()).getBitmap();
-                        Palette palette = PaletteTransformation.getPalette(bitmap);
-
-                        Palette.Swatch primary = palette.getVibrantSwatch();
-                        Palette.Swatch secondary = palette.getDarkVibrantSwatch();
-
-                        if (primary == null) {
-                            primary = palette.getMutedSwatch();
-                        }
-                        if (secondary == null) {
-                            secondary = palette.getDarkMutedSwatch();
-                        }
-
-                        if(primary != null && secondary != null){
-                            mActionBarBackgroundColor = primary.getRgb();
-                            mStatusBarColor = secondary.getRgb();
-                        }
-
-                        // change the background color of the details view
-                        try {
-                            ObjectAnimator backgroundColorAnimator = ObjectAnimator.
-                                    ofObject(mDetailsArea, "backgroundColor", new ArgbEvaluator(),
-                                            0xFF666666, mActionBarBackgroundColor);
-                            backgroundColorAnimator.setDuration(500);
-                            backgroundColorAnimator.start();
-                        } catch (Exception e) {
-                            mDetailsArea.setBackgroundColor(mActionBarBackgroundColor);
-                        }
-                    }
-                });
-        Picasso.with(this)
-                .load(fan_art)
-                .into(mFanArt);
+        Picasso.with(this).load(poster).into(mPoster);
+        Picasso.with(this).load(fan_art).into(mFanArt);
 
     }
 

@@ -49,6 +49,8 @@
 
     <string name="offline">Connect to a network, then try again.</string>
     <string name="movies_empty">There is no movies to show.</string>
+    <string name="movies_synopsis">Synopsis</string>
+    <string name="movies_specs">Specs</string>
     <string name="movies_details_empty">The movie details has failed to load. Please try again.</string>
     <string name="detailsRunTime">Runtime</string>
     <string name="detailsCertification">Certification</string>

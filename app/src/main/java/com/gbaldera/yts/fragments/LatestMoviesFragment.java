@@ -5,7 +5,6 @@ import android.content.Loader;
 
 import com.gbaldera.yts.loaders.LatestMoviesLoader;
 import com.gbaldera.yts.models.YtsMovie;
-import com.jakewharton.trakt.entities.Movie;
 
 import java.util.List;
 

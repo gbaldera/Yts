@@ -23,4 +23,5 @@
     <color name="text_color_default">#fff</color>
 
     <color name="card_background_dark">#292929</color>
+    <color name="card_background_dark_details">#171717</color>
 </resources>
