@@ -31,8 +31,8 @@ def loadProjectVersions(){
 }
 
 ext {
-    compileSdkVersion = 21
-    buildToolsVersion = "21.1.2"
+    compileSdkVersion = 22
+    buildToolsVersion = "22"
 
     def versions = loadProjectVersions()
     versionCode = versions["versionCode"]
