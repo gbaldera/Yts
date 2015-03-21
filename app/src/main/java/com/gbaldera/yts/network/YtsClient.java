@@ -25,7 +25,7 @@ import retrofit.http.Query;
 
 public class YtsClient {
 
-    private static final String API_URL = "https://yts.re/api/v2";
+    private static final String API_URL = "https://yts.to/api/v2";
 
     public interface YtsService {
 

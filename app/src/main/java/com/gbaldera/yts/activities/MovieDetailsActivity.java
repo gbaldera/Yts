@@ -202,16 +202,29 @@ public class MovieDetailsActivity extends BaseActivity implements
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void populateMovieViews() {
         mTitle.setText(mMovie.title);
 
         mPlot.setText(mMovie.description_full);
 
-        Resources res = getResources();
-        Drawable runtimeDrawable = res.getDrawable(R.drawable.ic_runtime);
-        Drawable certificationDrawable = res.getDrawable(R.drawable.ic_certification);
-        Drawable ratingDrawable = res.getDrawable(R.drawable.ic_rating);
-        int drawablePadding = (int) res.getDimension(R.dimen.activity_horizontal_margin);
+        Drawable runtimeDrawable;
+        Drawable certificationDrawable;
+        Drawable ratingDrawable;
+
+        if(AndroidUtils.isLollipopOrHigher()){
+            runtimeDrawable = getDrawable(R.drawable.ic_runtime);
+            certificationDrawable = getDrawable(R.drawable.ic_certification);
+            ratingDrawable = getDrawable(R.drawable.ic_rating);
+        }
+        else {
+            Resources res = getResources();
+            runtimeDrawable = res.getDrawable(R.drawable.ic_runtime);
+            certificationDrawable = res.getDrawable(R.drawable.ic_certification);
+            ratingDrawable = res.getDrawable(R.drawable.ic_rating);
+        }
+
+        int drawablePadding = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
 
         mRuntime.setText(TextHelper.getPrettyRuntime(this, mMovie.runtime));
         mRuntime.setCompoundDrawablesWithIntrinsicBounds(runtimeDrawable, null, null, null);
