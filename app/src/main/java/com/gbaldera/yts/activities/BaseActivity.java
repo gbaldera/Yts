@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 
@@ -14,12 +14,11 @@ import com.gbaldera.yts.BuildConfig;
 import com.gbaldera.yts.R;
 import com.gbaldera.yts.helpers.ColorHelper;
 import com.gbaldera.yts.widgets.MultiSwipeRefreshLayout;
-
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
-public abstract class BaseActivity extends ActionBarActivity implements
+public abstract class BaseActivity extends AppCompatActivity implements
         MultiSwipeRefreshLayout.CanChildScrollUpCallback {
 
     protected Toolbar mActionBarToolbar;
